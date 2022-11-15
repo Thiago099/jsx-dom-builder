@@ -8,11 +8,7 @@ this is a library that allows to use jsx to create dom elements, and manipulaing
 
 ![image](https://user-images.githubusercontent.com/66787043/202048536-5d087204-2299-47d0-8940-457074aec9e9.png)
 
-https://thiago099.github.io/jsx-dom-builder-vite-example/
-
-source
-
-https://github.com/Thiago099/jsx-dom-builder-vite-example
+[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) [source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
 ## Instalation
 
