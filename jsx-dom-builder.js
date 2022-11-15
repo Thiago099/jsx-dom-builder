@@ -194,18 +194,34 @@ export function element(type) {
 
 export const dom = (name, props, ...children) => {
 
-    const el = element(name);
+    console.log(name, props, children)
+    if (typeof name === 'function') {
+        return name(props, ...children);
+    }
 
+    const el = element(name);
+    
     const handlers = {
         "ref": (ref) => {
             ref(el);
         },
         "style":(prop)=>{
-            const styles = prop.split(';');
-            for(const style of styles) {
-                const [key, value] = style.split(':');
-                el.style(key,value);
-            }},
+            if(typeof prop === "object")
+            {
+                for(const [key,value] of Object.entries(prop))
+                {
+                    el.style(key,value)
+                }
+            }
+            else
+            {
+                const styles = prop.split(';');
+                for(const style of styles) {
+                    const [key, value] = style.split(':');
+                    el.style(key,value);
+                }
+            }
+        },
          "class":(prop)=>{
             // if is object
             if(typeof prop === "object")
@@ -226,6 +242,9 @@ export const dom = (name, props, ...children) => {
         "parent":(prop)=>{
             el.parent(prop);
         },
+        "model":(prop)=>{
+            el.model(prop.get,prop.set);
+        }
     }
 
     if(props)
@@ -258,21 +277,3 @@ export const dom = (name, props, ...children) => {
     return el;
 };
 
-import path from "path"
-export const jsxDomBuilderVitePlugin = () => ({
-    name: 'dom-builder',
-    config: () => ({
-        esbuild: {
-            jsxFactory: 'dom',
-            jsxFragment: 'Fragment',
-            jsxInject: `import { element, effect, dom } from "jsx-dom-builder";`,
-        },
-        resolve: {
-            alias: {
-              '@': path.resolve(__dirname, 'src'),
-              '~': path.resolve(__dirname)
-            }
-          },
-    })
-  })
-  
