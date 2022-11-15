@@ -90,7 +90,8 @@ export default function RefExample()
 
     const ref = {}
 
-    const container = <div>
+    const container = 
+    <div>
         <button class="button" id="main" ref={ref}>Main</button>
         <button class="button" id="secondary" ref={ref}>Secondary</button>
     </div>
