@@ -43,3 +43,16 @@ import RefExample from "./components/ref-example.jsx"
 ```
 
 ![image](https://user-images.githubusercontent.com/66787043/202039923-39d4c73f-73ba-4aac-b784-ea49e45aa7b8.png)
+
+```js
+export default function Title( { text } )
+{
+    const title = 
+        <h1 
+            class="title" 
+        >
+            {text}
+        </h1>
+    return title
+}
+```
