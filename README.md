@@ -2,7 +2,7 @@
 
 ## Description
 
-this is a library that allows to use jsx to create dom elements, and manipulaing them with a factory method
+this is a library that allows to use jsx to create dom elements, and manipulaing them with a builder method
 
 ## Instalation
 
