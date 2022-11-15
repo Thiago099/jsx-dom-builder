@@ -41,11 +41,14 @@ import Counter from "./components/counter.jsx"
 import Title from "./components/title.jsx"
 import RefExample from "./components/ref-example.jsx"
 
-<div parent={document.body} class="container">
+const app = 
+<div class="container">
     <Title text="vite + jsx-dom-builder"/>
     <Counter />
     <RefExample />
 </div>
+
+app.parent(document.body)
 ```
 
 ![image](https://user-images.githubusercontent.com/66787043/202039923-39d4c73f-73ba-4aac-b784-ea49e45aa7b8.png)
