@@ -259,13 +259,13 @@ export const dom = (name, props, ...children) => {
 };
 
 import path from "path"
-export const domBuilderVite = () => ({
+export const jsxDomBuilderVitePlugin = () => ({
     name: 'dom-builder',
     config: () => ({
         esbuild: {
             jsxFactory: 'dom',
             jsxFragment: 'Fragment',
-            jsxInject: `import { element, effect, dom } from "~/dom-builder";`,
+            jsxInject: `import { element, effect, dom } from "jsx-dom-builder";`,
         },
         resolve: {
             alias: {

@@ -1,21 +1,21 @@
 {
-  "name": "jsx-builder",
-  "version": "1.0.0",
+  "name": "jsx-dom-builder",
+  "version": "2.0.1",
   "description": "",
-  "main": "jsx-builder.js",
+  "main": "jsx-dom-builder.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Thiago099/jsx-builder.git"
+    "url": "git+https://github.com/Thiago099/jsx-dom-builder.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Thiago099/jsx-builder/issues"
+    "url": "https://github.com/Thiago099/jsx-dom-builder/issues"
   },
-  "homepage": "https://github.com/Thiago099/jsx-builder#readme",
+  "homepage": "https://github.com/Thiago099/jsx-dom-builder#readme",
   "dependencies": {
     "observable-slim": "^0.1.6"
   }
