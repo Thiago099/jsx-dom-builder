@@ -81,7 +81,7 @@ export default function Counter()
 }
 ```
 you can also pass a object in the ref propery and the element will store a key with its id, the dom-builder element as value
-```
+```js
 export default function RefExample()
 {
 
