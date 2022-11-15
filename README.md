@@ -4,12 +4,6 @@
 
 this is a library that allows to use jsx to create dom elements, and manipulaing them with a builder method
 
-## Exemple project
-
-[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
-
-[source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
-
 ## Instalation
 
 create a vite vanilla app with the command:
@@ -34,6 +28,10 @@ or colne the following repository
 https://github.com/Thiago099/jsx-dom-builder-vite-example
 
 ## Example
+
+[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
+
+[source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
 ```js
 import "./style.css"
