@@ -44,6 +44,8 @@ import RefExample from "./components/ref-example.jsx"
 
 ![image](https://user-images.githubusercontent.com/66787043/202039923-39d4c73f-73ba-4aac-b784-ea49e45aa7b8.png)
 
+just like on react you can create a function component with props
+
 ```js
 export default function Title( { text } )
 {
@@ -54,5 +56,45 @@ export default function Title( { text } )
             {text}
         </h1>
     return title
+}
+
+```
+
+every jsx code are dom builder elements and can use every capabilites of them
+
+```js
+export default function Counter()
+{
+    const data = effect( { count: 0 } )
+
+    const button = 
+        <button 
+            class="button" 
+            effect={data}
+        >
+            Count is: { () => data.count }
+        </button>
+
+    button.event("click", () => data.count++ )
+
+    return button
+}
+```
+you can also pass a object in the ref propery and the element will store a key with its id, the dom-builder element as value
+```
+export default function RefExample()
+{
+
+    const ref = {}
+
+    const container = <div>
+        <button class="button" id="main" ref={ref}>Main</button>
+        <button class="button" id="secondary" ref={ref}>Secondary</button>
+    </div>
+
+    ref.main.event("click", () => alert("Main button clicked") )
+    ref.secondary.event("click", () => alert("Secondary button clicked") )
+
+    return container
 }
 ```
