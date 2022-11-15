@@ -60,7 +60,7 @@ export default function Title( { text } )
 
 ```
 
-every jsx code are dom builder elements and [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder). is a page of how to use them
+every jsx code are dom-builder elements and this is what you can do with them: [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder).
 
 ```js
 export default function Counter()
