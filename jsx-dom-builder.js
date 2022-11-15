@@ -104,6 +104,7 @@ class el{
         if(object.element !== undefined)
         {
             object.element.appendChild(this.element);
+            this.events.push(...object.events)
         }
         else
         {
@@ -194,16 +195,25 @@ export function element(type) {
 
 export const dom = (name, props, ...children) => {
 
-    console.log(name, props, children)
+    var el;
     if (typeof name === 'function') {
-        return name(props, ...children);
+        el = name(props, ...children);
+    }
+    else
+    {
+        el = element(name);
     }
 
-    const el = element(name);
     
     const handlers = {
         "ref": (ref) => {
-            ref(el);
+            // find id property
+            const id = Object.entries(props).find(([key, value]) => key === "id");
+            if(id)
+            {
+                ref[id[1]] = el;
+                return
+            }
         },
         "style":(prop)=>{
             if(typeof prop === "object")
@@ -242,9 +252,7 @@ export const dom = (name, props, ...children) => {
         "parent":(prop)=>{
             el.parent(prop);
         },
-        "model":(prop)=>{
-            el.model(prop.get,prop.set);
-        }
+
     }
 
     if(props)
