@@ -1,0 +1,22 @@
+{
+  "name": "jsx-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jsx-builder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thiago099/jsx-builder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thiago099/jsx-builder/issues"
+  },
+  "homepage": "https://github.com/Thiago099/jsx-builder#readme",
+  "dependencies": {
+    "observable-slim": "^0.1.6"
+  }
+}
