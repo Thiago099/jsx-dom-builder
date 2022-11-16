@@ -1,6 +1,6 @@
 {
   "name": "jsx-dom-builder",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "description": "",
   "main": "jsx-dom-builder.js",
   "scripts": {
@@ -18,5 +18,11 @@
   "homepage": "https://github.com/Thiago099/jsx-dom-builder#readme",
   "dependencies": {
     "observable-slim": "^0.1.6"
-  }
+  },
+  "keywords":[
+    "front-end",
+    "dom",
+    "jsx",
+    "vite"
+  ]
 }
