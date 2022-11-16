@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a library that allows to use jsx to create dom  elements, and manipulating them with a builder method
+This is a library that allows to use jsx to create a wrapper to the dom elements, that you can use to change anything within that dom element
 
 ## Instalation
 
