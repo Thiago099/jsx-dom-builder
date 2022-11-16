@@ -9,10 +9,14 @@ This is a library that allows to use jsx to create dom  elements, and manipulati
 Create a vite vanilla app with the command:
 ```
 npm create vite
+```
+open the project folder and run the following commands
+```
+npm install
 npm install jsx-dom-builder
 ```
 
-create the `vite.config.js` with the following code:
+create the `vite.config.js` in the root directory of your project, with the following code:
 
 ```js
 import { defineConfig } from "vite"
