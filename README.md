@@ -83,7 +83,7 @@ export default function Counter()
     return button
 }
 ```
-You can also pass an object in the ref property and the element will store a key with its id, the dom-builder element as the value;
+You can also pass an object in the ref property and the element will store a entry with its id as key and, its dom-builder element as the value;
 ```js
 export default function RefExample()
 {
