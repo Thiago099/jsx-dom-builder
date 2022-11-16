@@ -2,11 +2,11 @@
 
 ## Description
 
-this is a library that allows to use jsx to create dom elements, and manipulaing them with a builder method
+This is a library that allows to use jsx to create dom  elements, and manipulating them with a builder method
 
 ## Instalation
 
-create a vite vanilla app with the command:
+Create a vite vanilla app with the command:
 ``
 npm create vite
 ``
@@ -23,11 +23,11 @@ export default defineConfig({
 
 ```
 
-or colne the following repository
-
-https://github.com/Thiago099/jsx-dom-builder-vite-example
-
 ## Example
+
+[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
+
+[source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
 ```js
 import "./style.css"
@@ -35,16 +35,19 @@ import Counter from "./components/counter.jsx"
 import Title from "./components/title.jsx"
 import RefExample from "./components/ref-example.jsx"
 
-<div parent={document.body} class="container">
+const app = 
+<div class="container">
     <Title text="vite + jsx-dom-builder"/>
     <Counter />
     <RefExample />
 </div>
+
+app.parent(document.body)
 ```
 
 ![image](https://user-images.githubusercontent.com/66787043/202039923-39d4c73f-73ba-4aac-b784-ea49e45aa7b8.png)
 
-just like on react you can create a function component with props
+Just like to react you can create a component:
 
 ```js
 export default function Title( { text } )
@@ -60,7 +63,7 @@ export default function Title( { text } )
 
 ```
 
-every jsx code are dom-builder elements and this is what you can do with them: [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder).
+Every JSX code is done elements and, here is what you can do with them: [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder).
 
 ```js
 export default function Counter()
@@ -80,14 +83,15 @@ export default function Counter()
     return button
 }
 ```
-you can also pass a object in the ref propery and the element will store a key with its id, the dom-builder element as value
+You can also pass an object in the ref property and the element will store a key with its id, the dom-builder element as the value;
 ```js
 export default function RefExample()
 {
 
     const ref = {}
 
-    const container = <div>
+    const container = 
+    <div>
         <button class="button" id="main" ref={ref}>Main</button>
         <button class="button" id="secondary" ref={ref}>Secondary</button>
     </div>
