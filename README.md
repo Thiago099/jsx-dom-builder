@@ -63,7 +63,7 @@ export default function Title( { text } )
 
 ```
 
-Every JSX code is done elements and, here is what you can do with them: [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder).
+Every JSX elements are dom-builder elements and, here is what you can do with them: [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder).
 
 ```js
 export default function Counter()
