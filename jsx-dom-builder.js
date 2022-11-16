@@ -84,15 +84,15 @@ class el{
                     {
                         if(previous)
                         {
-                            this.element.classList.remove(...((previous).split(" ")))
+                            this.element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
                         }
                         previous = classes
                     }
-                    this.element.classList.add(...((classes).split(" ")));
+                    this.element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
                 }
                 else
                 {
-                    this.element.classList.remove(...((classes).split(" ")));
+                    this.element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
                     previous = null
                 }
             }
@@ -150,10 +150,21 @@ class el{
         })
         return this
     }
-    style(name, value)
+    style(name, value = null)
     {
         this.#handleEffect(this.#isReactive(name,value),()=>{
-            this.element.style[this.#handleFunction(name)] = this.#handleFunction(value);
+            if(this.#handleFunction(value))
+            {
+                this.element.style[this.#handleFunction(name)] = this.#handleFunction(value);
+            }
+            else
+            {
+                const styles = this.#handleFunction(name).split(';').filter((style) => style.length > 0);
+                for(const style of styles) {
+                    const [key, value] = style.split(':');
+                    this.element.style[key] = value;
+                }
+            }
         })
         return this
     }
@@ -225,11 +236,7 @@ export const dom = (name, props, ...children) => {
             }
             else
             {
-                const styles = prop.split(';');
-                for(const style of styles) {
-                    const [key, value] = style.split(':');
-                    el.style(key,value);
-                }
+                el.style(prop)
             }
         },
          "class":(prop)=>{
