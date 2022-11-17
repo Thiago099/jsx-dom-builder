@@ -19,13 +19,18 @@ npm install jsx-dom-builder
 create the `vite.config.js` in the root directory of your project, with the following code:
 
 ```js
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from "vite"
 import  jsxDomBuilderVitePlugin  from "jsx-dom-builder/vite-plugin"
 // custom jsx pragma
 export default defineConfig({
-  plugins:[jsxDomBuilderVitePlugin()],
+    plugins:[jsxDomBuilderVitePlugin()],
+    resolve: {
+        alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        }
+    }
 })
-
 ```
 
 ## Example
