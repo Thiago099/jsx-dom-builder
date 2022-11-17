@@ -3,9 +3,9 @@ module.exports = () => ({
     name: 'dom-builder',
     config: () => ({
         esbuild: {
-            jsxFactory: 'dom',
-            // jsxFragment: 'Fragment',
-            jsxInject: `import { element, effect, dom } from "jsx-dom-builder";`,
+            jsxFactory: 'JSXDOM',
+            jsxFragment: 'Fragment',
+            jsxInject: `import { element, effect, JSXDOM, Fragment } from "jsx-dom-builder";`,
         }
     })
   })

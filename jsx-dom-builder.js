@@ -204,7 +204,7 @@ export function element(type) {
 
 
 
-export const dom = (name, props, ...children) => {
+export const JSXDOM = (name, props, ...children) => {
 
     var el;
     if (typeof name === 'function') {
@@ -217,21 +217,37 @@ export const dom = (name, props, ...children) => {
 
     
     const handlers = {
+        "id": (value) =>{
+            // id is used by ref and should not be set
+            // remove this block to allow id to be set
+        },
         "ref": (ref) => {
-            // find id property
-            const id = Object.entries(props).find(([key, value]) => key === "id");
+
+            const find = (name) => Object.entries(props).find(([key, value]) => key === name)
+
+            const id = find("id");
             if(id)
             {
                 ref[id[1]] = el;
                 return
             }
+            // const _class = find("class");
+            // if(_class)
+            // {
+            //     const classes = _class[1].split(" ").filter((c) => c.length > 0);
+            //     if(classes.length > 0)
+            //     {
+            //         ref[classes[0]] = el;
+            //     }
+            //     return
+            // }
         },
         "style":(prop)=>{
             if(typeof prop === "object")
             {
-                for(const [key,value] of Object.entries(prop))
+                for(const [key, value] of Object.entries(prop))
                 {
-                    el.style(key,value)
+                    el.style(key, value)
                 }
             }
             else
@@ -243,9 +259,9 @@ export const dom = (name, props, ...children) => {
             // if is object
             if(typeof prop === "object")
             {
-                for(const [pkey, value] of Object.entries(prop))
+                for(const [key, value] of Object.entries(prop))
                 {
-                    el.class(pkey,value);
+                    el.class(key,value);
                 }
             }
             else
@@ -280,15 +296,24 @@ export const dom = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            if(child.element) {
-                child.parent(el);
-            }
-            else
+            if(child)
             {
-                el.text(child);
+                if(child.element) 
+                {
+                    child.parent(el);
+                }
+                else
+                {
+                    el.text(child);
+                }
             }
         }
     }
     return el;
 };
 
+
+export const Fragment = (props, ...children) => {
+    return element("div")
+            .style("display:inline-block")
+}
