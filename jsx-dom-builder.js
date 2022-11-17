@@ -296,15 +296,33 @@ export const JSXDOM = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            if(child)
+            parseChild(child, el);
+            function parseChild(child, parent)
             {
-                if(child.element) 
+                if(child)
                 {
-                    child.parent(el);
-                }
-                else
-                {
-                    el.text(child);
+                    if(Array.isArray(child))
+                    {
+                        const NewParent = element("div")
+                            .style("display:inline-block")
+                            .parent(parent)
+                            
+                        for(const c of child)
+                        {
+                            parseChild(c,NewParent)
+                        }
+                    }
+                    else
+                    {
+                        if(child.element) 
+                        {
+                            child.parent(parent);
+                        }
+                        else
+                        {
+                            parent.text(child);
+                        }
+                    }
                 }
             }
         }
