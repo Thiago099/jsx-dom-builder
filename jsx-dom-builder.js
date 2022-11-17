@@ -217,10 +217,10 @@ export const JSXDOM = (name, props, ...children) => {
 
     
     const handlers = {
-        "id": (value) =>{
-            // id is used by ref and should not be set
-            // remove this block to allow id to be set
-        },
+        // "id": (value) =>{
+        //     // id is used by ref and should not be set
+        //     // remove this block to allow id to be set
+        // },
         "ref": (ref) => {
 
             const find = (name) => Object.entries(props).find(([key, value]) => key === name)
