@@ -39,6 +39,11 @@ class el{
             }
         }
         var on = null
+        if(this.element.parentNode)
+        {
+            data.__subscribe(handleCallbacks)
+            on = true
+        }
         this.element.addEventListener("DOMNodeRemoved", () => {
             if(on != false)
             {
