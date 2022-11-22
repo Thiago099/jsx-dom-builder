@@ -7,8 +7,14 @@ export function effect(initial_value){
         callbacks.push(callback);
     }
     initial_value.__subscribe = subscribe;
-    
+
+    function unsubscribe(callback){
+        callbacks.splice(callbacks.indexOf(callback), 1);
+    }
+    initial_value.__unsubscribe = unsubscribe;
+
     const data = ObservableSlim.create(initial_value, true, (changes)=> {
+
         for(const callback of callbacks){
             callback(data);
         }
@@ -25,12 +31,29 @@ class el{
 
     effect(data)
     {
-        data.__subscribe(() => {
+        const handleCallbacks = () =>
+        {
             for(const event of this.events)
             {
                 event()
             }
+        }
+        var on = null
+        this.element.addEventListener("DOMNodeRemoved", () => {
+            if(on != false)
+            {
+                data.__unsubscribe(handleCallbacks)
+                on = false
+            }
         })
+        this.element.addEventListener("DOMNodeInserted", () => {
+            if(on != true)
+            {
+                data.__subscribe(handleCallbacks)
+                on = true
+            }
+        })
+
         return this
     }
 
@@ -296,31 +319,27 @@ export const JSXDOM = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            parseChild(child, el);
-            function parseChild(child, parent)
+            parseChild(child);
+            function parseChild(child)
             {
                 if(child)
                 {
                     if(Array.isArray(child))
                     {
-                        const NewParent = element("div")
-                            .style("display:inline-block")
-                            .parent(parent)
-                            
                         for(const c of child)
                         {
-                            parseChild(c,NewParent)
+                            parseChild(c)
                         }
                     }
                     else
                     {
                         if(child.element) 
                         {
-                            child.parent(parent);
+                            child.parent(el);
                         }
                         else
                         {
-                            parent.text(child);
+                            el.text(child);
                         }
                     }
                 }
