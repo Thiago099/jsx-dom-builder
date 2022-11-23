@@ -4,11 +4,13 @@ export function effect(initial_value){
     const callbacks = [];
 
     function subscribe(callback){
+        // console.log('subscribe');
         callbacks.push(callback);
     }
     initial_value.__subscribe = subscribe;
 
     function unsubscribe(callback){
+        // console.log('unsubscribe');
         callbacks.splice(callbacks.indexOf(callback), 1);
     }
     initial_value.__unsubscribe = unsubscribe;
@@ -38,27 +40,22 @@ class el{
                 event()
             }
         }
-        var on = null
-        if(this.element.parentNode)
-        {
-            data.__subscribe(handleCallbacks)
-            on = true
-        }
+        var on = true
+        data.__subscribe(handleCallbacks)
         this.element.addEventListener("DOMNodeRemoved", () => {
-            if(on != false)
+            if(on == true)
             {
                 data.__unsubscribe(handleCallbacks)
                 on = false
             }
         })
         this.element.addEventListener("DOMNodeInserted", () => {
-            if(on != true)
+            if(on == false)
             {
                 data.__subscribe(handleCallbacks)
                 on = true
             }
         })
-
         return this
     }
 
