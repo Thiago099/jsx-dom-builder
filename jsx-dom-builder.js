@@ -27,7 +27,18 @@ export function effect(initial_value){
 class el{
     // constructor
     constructor(name) {
-        this.element = document.createElement(name);
+        if(typeof name === "string")
+        {
+            this.element = document.createElement(name);
+        }
+        else if(name instanceof HTMLElement)
+        {
+            this.element = name;
+        }
+        else
+        {
+            throw new Error("Invalid element name");
+        }
         this.events = [];
     }
 
