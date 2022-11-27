@@ -204,6 +204,16 @@ class el{
         })
         return this
     }
+
+    get_computed_style(name)
+    {
+        return window.getComputedStyle(this.element).getPropertyValue(name)
+    }
+
+    get_property(name)
+    {
+        return this.element[name]
+    }
     
     html(value)
     {
@@ -238,13 +248,17 @@ export function element(type) {
     return new el(type);
 }
 
-
+export function query(selector) {
+    return new el(document.querySelector(selector));
+}
 
 export const JSXDOM = (name, props, ...children) => {
 
     var el;
+    var is_component = false
     if (typeof name === 'function') {
         el = name(props, ...children);
+        is_component = true
     }
     else
     {
@@ -328,7 +342,7 @@ export const JSXDOM = (name, props, ...children) => {
             }
         };
     }
-    if(children)
+    if(children && !is_component)
     {
         for(const child of children)
         {
@@ -352,6 +366,7 @@ export const JSXDOM = (name, props, ...children) => {
                         }
                         else
                         {
+                            console.log(child)
                             el.text(child);
                         }
                     }
