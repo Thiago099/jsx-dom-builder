@@ -338,7 +338,10 @@ export const JSXDOM = (name, props, ...children) => {
             }
             else
             {
-                el.property(key, value);
+                if(!is_component)
+                {
+                    el.property(key, value);
+                }
             }
         };
     }
