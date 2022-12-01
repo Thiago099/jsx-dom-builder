@@ -366,7 +366,6 @@ export const JSXDOM = (name, props, ...children) => {
                         }
                         else
                         {
-                            console.log(child)
                             el.text(child);
                         }
                     }
