@@ -258,7 +258,15 @@ export const JSXDOM = (name, props, ...children) => {
     var is_component = false
     if (typeof name === 'function') {
         el = name(props, ...children);
-        is_component = true
+        if(el === undefined)
+        {
+            el = element("div")
+            .style("display:inline-block")
+        }
+        else
+        {
+            is_component = true
+        }
     }
     else
     {
@@ -381,6 +389,5 @@ export const JSXDOM = (name, props, ...children) => {
 
 
 export const Fragment = (props, ...children) => {
-    return element("div")
-            .style("display:inline-block")
+    return undefined
 }
