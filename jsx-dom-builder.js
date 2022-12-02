@@ -388,6 +388,4 @@ export const JSXDOM = (name, props, ...children) => {
 };
 
 
-export const Fragment = (props, ...children) => {
-    return undefined
-}
+export const Fragment = (props, ...children) => undefined
