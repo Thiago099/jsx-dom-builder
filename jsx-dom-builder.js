@@ -222,6 +222,40 @@ class el{
         })
         return this
     }
+    child(value)
+    {
+        var old = null
+        this.#handleEffect(this.#isReactive(value),()=>{
+
+            var item = this.#handleFunction(value)
+            if(old != item)
+            {
+                if(old !== null)
+                {
+                    if(old.element !== undefined)
+                    {
+                        old.remove()
+                    }
+                    else
+                    {
+                        this.element.removeChild(old)
+                    }
+                }
+                
+                if(item.element !== undefined)
+                {
+                    item.parent(this)
+                }
+                else
+                {
+                    this.element.appendChild(item)
+                }
+                old = item
+            }
+        })
+        return this
+    }
+
     text(value)
     {
         const text = document.createTextNode(this.#handleFunction(value));
