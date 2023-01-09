@@ -40,30 +40,34 @@ class el{
             throw new Error("Invalid element name");
         }
         this.events = [];
+        this.children = [];
     }
-
+    #handleCallbacks = () =>
+    {
+        for(const event of this.events)
+        {
+            event()
+        }
+        for(const child of this.children)
+        {
+            child.#handleCallbacks()
+        }
+    }
     effect(data)
     {
-        const handleCallbacks = () =>
-        {
-            for(const event of this.events)
-            {
-                event()
-            }
-        }
         var on = true
-        data.__subscribe(handleCallbacks)
+        data.__subscribe(this.#handleCallbacks)
         this.element.addEventListener("DOMNodeRemoved", () => {
             if(on == true)
             {
-                data.__unsubscribe(handleCallbacks)
+                data.__unsubscribe(this.#handleCallbacks)
                 on = false
             }
         })
         this.element.addEventListener("DOMNodeInserted", () => {
             if(on == false)
             {
-                data.__subscribe(handleCallbacks)
+                data.__subscribe(this.#handleCallbacks)
                 on = true
             }
         })
@@ -140,7 +144,7 @@ class el{
         if(object.element !== undefined)
         {
             object.element.appendChild(this.element);
-            this.events.push(...object.events)
+            object.children.push(this)
         }
         else
         {
@@ -403,6 +407,12 @@ export const JSXDOM = (name, props, ...children) => {
                             parseChild(c)
                         }
                     }
+                    else 
+                    if (typeof child === 'function')
+                    {
+                        const container = new element("span").parent(el)
+                        container.child(child)
+                    }
                     else
                     {
                         if(child.element) 
@@ -411,6 +421,11 @@ export const JSXDOM = (name, props, ...children) => {
                         }
                         else
                         {
+                            if(typeof child === "object")
+                            {
+                                el.text(JSON.stringify(child));
+                            }
+                            else
                             el.text(child);
                         }
                     }
