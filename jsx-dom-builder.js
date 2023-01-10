@@ -1,17 +1,17 @@
 import ObservableSlim from 'observable-slim';
 
 export function effect(initial_value){
-    const callbacks = [];
+    const callbacks = new Set();
 
     function subscribe(callback){
         // console.log('subscribe');
-        callbacks.push(callback);
+        callbacks.add(callback);
     }
     initial_value.__subscribe = subscribe;
 
     function unsubscribe(callback){
         // console.log('unsubscribe');
-        callbacks.splice(callbacks.indexOf(callback), 1);
+        callbacks.delete(callback);
     }
     initial_value.__unsubscribe = unsubscribe;
 
@@ -41,6 +41,7 @@ class el{
         }
         this.events = [];
         this.children = [];
+        this.on = false
     }
     #handleCallbacks = () =>
     {
@@ -55,23 +56,48 @@ class el{
     }
     effect(data)
     {
-        var on = true
-        data.__subscribe(this.#handleCallbacks)
-        this.element.addEventListener("DOMNodeRemoved", () => {
-            if(on == true)
-            {
-                data.__unsubscribe(this.#handleCallbacks)
-                on = false
-            }
-        })
-        this.element.addEventListener("DOMNodeInserted", () => {
-            if(on == false)
-            {
-                data.__subscribe(this.#handleCallbacks)
-                on = true
-            }
-        })
+        this.data = data;
+        this.#subscribe();
         return this
+    }
+
+    #observeParent()
+    {
+        const observer = new MutationObserver((mutations) => {
+            for(const mutation of mutations)
+            {
+                if (mutation.type === 'childList' && mutation.removedNodes.length) {
+                    for (const removedNode of mutation.removedNodes) {
+                        if (removedNode === this.element) {
+                            this.#unsubscribe()
+                        }
+                    }
+                }
+                if (mutation.type === 'childList' && mutation.addedNodes.length) {
+                    for (const removedNode of mutation.addedNodes) {
+                        if (removedNode === this.element) {
+                            this.#subscribe()
+                        }
+                    }
+                }
+            }
+        });
+        observer.observe(this.element.parentElement, { childList: true });
+    }
+    #subscribe()
+    {
+        if(this.data)
+        {
+            this.data.__subscribe(this.#handleCallbacks)
+        }
+    }
+    #unsubscribe()
+    {
+        for(const child of this.children) child.#unsubscribe()
+        if(this.data)
+        {
+            this.data.__unsubscribe(this.#handleCallbacks)
+        }
     }
 
     #handleFunction(data)
@@ -150,6 +176,7 @@ class el{
         {
             object.appendChild(this.element);
         }
+        this.#observeParent();
         return this
     }
     parentBefore(object)
@@ -176,6 +203,7 @@ class el{
                 object.appendChild(this.element);
             }
         }
+        this.#observeParent();
         return this
     }
     event(event, callback)
