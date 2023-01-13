@@ -260,6 +260,12 @@ class el{
         this.#handleEffect(this.#isReactive(value),()=>{
 
             var item = this.#handleFunction(value)
+
+            if(typeof item !== "object")
+            {
+                item = document.createTextNode(item)
+            }
+
             if(old != item)
             {
                 if(old !== null)
