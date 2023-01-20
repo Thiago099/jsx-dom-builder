@@ -332,13 +332,9 @@ export const JSXDOM = (name, props, ...children) => {
         el = name(props, ...children);
         if(el === undefined)
         {
-            el = element("div")
-            .style("display:inline-block")
+            return children
         }
-        else
-        {
-            is_component = true
-        }
+        is_component = true
     }
     else
     {
