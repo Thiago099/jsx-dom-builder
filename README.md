@@ -58,11 +58,11 @@ const element1 = <input type="text"/>
 
 element1
     .effect(data)
-    
+
 element1.value = ()=> data.color
 ```
 
-alternativily you can update using the update function that will do the same but manualy
+alternativily you can update manually using the update function that will do the same but manualy
 
 ```js
 var color = "red"
