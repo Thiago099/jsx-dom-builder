@@ -48,7 +48,7 @@ const element2 =
 You can automatically update using the effect clause which can be either in the html or in the builder
 ```js
 const data = effect({color:"red"})
-const element1 = <input type="text" effect={data} value={()=>data}/>
+const element1 = <input type="text" effect={data} value={() => data}/>
 ```
 
 ```js
