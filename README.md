@@ -53,6 +53,7 @@ const element1 = <input type="text" effect={data} value={()=>data}/>
 ```
 
 ```js
+const data = effect({color:"red"})
 const element1 = <input type="text"/>
 
 element1
@@ -82,8 +83,6 @@ element3.value = () => a
 here is some other options that you have
 ```js
 
-var data = effect({bar:"foo"})
-element1.effect(data)
 
 element1
     .class("my-class")
