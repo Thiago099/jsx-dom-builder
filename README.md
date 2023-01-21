@@ -52,7 +52,7 @@ const app =
 <div class="container" effect={data}>
     <div 
         class="square" 
-        ref={[ref,"colored_input"]} 
+        ref={[ref,"colored_square"]} 
     />
     <button 
         ref={[ref,"make_it_blue"]}
@@ -62,7 +62,7 @@ const app =
     </button>
 </div>
 
-ref.colored_input.style.backgroundColor = () => data.color
+ref.colored_square.style.backgroundColor = () => data.color
 
 ref.make_it_blue.event("click", () => {
     data.color = "blue"
@@ -82,7 +82,7 @@ const app =
 <div class="container">
     <div 
         class="square" 
-        ref={[ref,"colored_input"]} 
+        ref={[ref,"colored_square"]} 
     />
     <button 
         ref={[ref,"make_it_blue"]}
@@ -92,7 +92,7 @@ const app =
     </button>
 </div>
 
-ref.colored_input.style.backgroundColor = () => color
+ref.colored_square.style.backgroundColor = () => color
 
 ref.make_it_blue.event("click", () => {
     color = "blue"
@@ -113,7 +113,7 @@ const app =
 <div class="container">
     <div 
         class="square" 
-        ref={[ref,"colored_input"]} 
+        ref={[ref,"colored_square"]} 
     />
     <button 
         ref={[ref,"make_it_blue"]}
@@ -123,10 +123,10 @@ const app =
     </button>
 </div>
 
-ref.colored_input.style.backgroundColor = "red"
+ref.colored_square.style.backgroundColor = "red"
 
 ref.make_it_blue.event("click", () => {
-    ref.colored_input.style.backgroundColor = "blue"
+    ref.colored_square.style.backgroundColor = "blue"
     app.update()
 })
 
