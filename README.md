@@ -35,6 +35,11 @@ export default defineConfig({
 ```
 ## Examples
 
+Here is a example of a page with a red square and a button, when you click the button the red square turns blue
+
+![image](https://user-images.githubusercontent.com/66787043/213872010-a6c7d213-26f3-46c7-9096-16eea23f32e4.png)
+
+
 [here is a page with the goal of this example](https://thiago099.github.io/new-jsx-dom-builder-vite-examples/)
 
 ### the main way you whuld aproach this problem
