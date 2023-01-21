@@ -65,7 +65,7 @@ Alternatively, you can update manually using the update function
 
 ```js
 var color = "red"
-const element1 = <div class={()=>color}>{()=>color}</div>
+const element1 = <div class={() => color}>{() => color}</div>
 
 color = "blue"
 element1.update()
