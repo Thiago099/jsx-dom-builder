@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a library that allows to use jsx to create a wrapper to the dom elements, that you can use to change anything within that dom element
+This is a library that allows to use jsx to create a wrapper to the dom elements, that you can use to change anything within that dom element. also can acess every propery just like you whuld when you are using the document.createElement
 
 ## Instalation
 
