@@ -97,7 +97,7 @@ ref.make_it_blue.event("click", () => {
 app.parent(document.body)
 ```
 
-## Legacy examples
+## Other examples
 
 [gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
@@ -166,8 +166,8 @@ export default function RefExample()
 
     const container = 
     <div>
-        <button class="button" id="main" ref={ref}>Main</button>
-        <button class="button" id="secondary" ref={ref}>Secondary</button>
+        <button class="button" ref={[ref,"main"]}>Main</button>
+        <button class="button" ref={[ref,"secondary"]}>Secondary</button>
     </div>
 
     ref.main.event("click", () => alert("Main button clicked") )
