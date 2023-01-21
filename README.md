@@ -58,7 +58,7 @@ const element1 = <input type="text"/>
 
 element1
     .effect(data)
-    .value(data)
+    .value(()=>data)
 ```
 
 alternativily you can update using the update function that will do the same but manualy
