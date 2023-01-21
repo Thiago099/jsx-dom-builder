@@ -21,7 +21,6 @@ create the `vite.config.js` in the root directory of your project, with the foll
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from "vite"
 import  jsxDomBuilderVitePlugin  from "jsx-dom-builder/vite-plugin"
-// custom jsx pragma
 export default defineConfig({
     plugins:[jsxDomBuilderVitePlugin()],
     // make the @ as a alias to the src folder (opitional but recomended)
@@ -35,7 +34,7 @@ export default defineConfig({
 # Basics
 
 ## Creating
-you can create a element using either jsx or the element funtion, both have the same result object
+You can create an element using either jsx or the element function, both have the same result object
 ```js
 const element1 = 
 <div class="element1"></div>
@@ -46,7 +45,7 @@ const element2 =
 ```
 ## Updating
 
-you can automaticaly update using the effect clause wich can be either in the html or in the builder
+You can automatically update using the effect clause which can be either in the html or in the builder
 ```js
 const data = effect({color:"red"})
 const element1 = <input type="text" effect={data} value={()=>data}/>
@@ -59,10 +58,10 @@ const element1 = <input type="text"/>
 element1
     .effect(data)
 
-element1.value = ()=> data.color
+element1.value = () => data.color
 ```
 
-alternativily you can update manually using the update function that will do the same but manualy
+Alternatively, you can update manually using the update function
 
 ```js
 var color = "red"
@@ -71,7 +70,7 @@ const element1 = <div class={()=>color}>{()=>color}</div>
 color = "blue"
 element1.update()
 ```
-you can also define any propery to the element just like you whuld with the regular dom (note that if you want add events you will have to use the event function listed below)
+You can also define any property to the element just like you would with the regular DOM (note that if you want to add events you will have to use the event function listed below)
 
 ```js
 const element3 = <input type="text"/>
@@ -81,7 +80,8 @@ var a = 10
 element3.value = () => a
 ```
 
-here is some other options that you have
+Here are some other options that you have
+
 ```js
 
 
@@ -109,7 +109,7 @@ element1
 
 ## Edit property example
 
-Here is a example of a page with a red square and a button, when you click the button the red square turns blue
+Here is an example of a page with a red square and a button, when you click the button the red square turns blue
 
 ![image](https://user-images.githubusercontent.com/66787043/213872010-a6c7d213-26f3-46c7-9096-16eea23f32e4.png)
 
@@ -303,7 +303,7 @@ export default function Title( { text } )
 
 ```
 
-Every JSX elements are dom-builder elements and, here is what you can do with them: [here](https://www.npmjs.com/package/@thiago-kaique/dom-builder).
+Every JSX elements are dom-builder elements and, you can find above more information about that
 
 ```js
 export default function Counter()
