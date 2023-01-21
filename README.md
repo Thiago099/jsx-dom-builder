@@ -41,6 +41,35 @@ export default defineConfig({
 
 [gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
+# the main way you whuld aproach this problem
+```js
+const ref = {}
+
+var data = effect({color:"red"})
+
+const app = 
+<div class="container" effect={data}>
+    <div 
+        class="square" 
+        ref={[ref,"colored_input"]} 
+    />
+    <button 
+        ref={[ref,"make_it_blue"]}
+        class="button"
+    >
+        make the square blue
+    </button>
+</div>
+
+ref.colored_input.style.backgroundColor = () => data.color
+
+ref.make_it_blue.event("click", () => {
+    data.color = "blue"
+})
+
+app.parent(document.body)
+```
+
 [source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
 ```js
