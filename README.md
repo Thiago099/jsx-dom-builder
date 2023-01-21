@@ -155,7 +155,34 @@ const app =
 
 app.parent(document.body)
 ```
+## Dynamic content example
 
+[page with this example content](https://thiago099.github.io/jsx-dom-builder-dynamic-content-example/)
+
+```js
+import './style.css'
+const ref = {}
+var data = effect({list:[],text:""})
+
+const app = 
+<div class="container" effect={data}>
+    <div class="separator">
+        <button class="button" ref={[ref,"addButton"]}>Add</button>
+        <input class="input" type="text" model={[data,"text"]}/>
+    </div>
+    <div class="separator">
+    <ul>
+        {() => data.list.map(item=> <li>{item}</li>)}
+    </ul>
+    </div>
+</div>
+
+ref.addButton.event("click",()=>{
+    data.list.push(data.text)
+    data.text = ""
+})
+app.parent(document.body)
+```
 
 ## Other examples
 
