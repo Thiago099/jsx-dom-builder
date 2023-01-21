@@ -33,7 +33,9 @@ export default defineConfig({
     }
 })
 ```
-## Examples
+# Examples
+
+## Edit property example
 
 Here is a example of a page with a red square and a button, when you click the button the red square turns blue
 
@@ -132,6 +134,28 @@ ref.make_it_blue.event("click", () => {
 
 app.parent(document.body)
 ```
+
+## Model example
+
+
+![image](https://user-images.githubusercontent.com/66787043/213872553-ddc9521d-f28e-4b1f-9ac4-70fad882ad8b.png)
+
+[page with this example content](https://thiago099.github.io/jsx-dom-builder-model-example/)
+
+```js
+import './style.css'
+const ref = {}
+var data = effect({text:"hello world"})
+
+const app = 
+<div class="container" effect={data}>
+    <h1>{() => data.text}</h1>
+    <input type="text" class="input" model={[data,"text"]} />
+</div>
+
+app.parent(document.body)
+```
+
 
 ## Other examples
 
