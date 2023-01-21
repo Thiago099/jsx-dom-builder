@@ -102,6 +102,37 @@ ref.make_it_blue.event("click", () => {
 app.parent(document.body)
 ```
 
+### Without reactivity
+
+```js
+import "./style.css"
+
+const ref = {}
+
+const app = 
+<div class="container">
+    <div 
+        class="square" 
+        ref={[ref,"colored_input"]} 
+    />
+    <button 
+        ref={[ref,"make_it_blue"]}
+        class="button"
+    >
+        make the square blue
+    </button>
+</div>
+
+ref.colored_input.style.backgroundColor = "red"
+
+ref.make_it_blue.event("click", () => {
+    ref.colored_input.style.backgroundColor = "blue"
+    app.update()
+})
+
+app.parent(document.body)
+```
+
 ## Other examples
 
 [gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
