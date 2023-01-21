@@ -42,7 +42,7 @@ Here is a example of a page with a red square and a button, when you click the b
 ![image](https://user-images.githubusercontent.com/66787043/213872010-a6c7d213-26f3-46c7-9096-16eea23f32e4.png)
 
 
-[here is a page with the goal of this example](https://thiago099.github.io/new-jsx-dom-builder-vite-examples/)
+[page with this example content](https://thiago099.github.io/new-jsx-dom-builder-vite-examples/)
 
 ### the main way you whuld aproach this problem
 ```js
@@ -159,7 +159,7 @@ app.parent(document.body)
 
 ## Other examples
 
-[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
+[page with this example content](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
 [source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
