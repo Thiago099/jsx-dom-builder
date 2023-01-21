@@ -29,11 +29,11 @@ class el{
     constructor(name) {
         if(typeof name === "string")
         {
-            this.element = document.createElement(name);
+            this.__element = document.createElement(name);
         }
         else if(name instanceof HTMLElement)
         {
-            this.element = name;
+            this.__element = name;
         }
         else
         {
@@ -41,7 +41,7 @@ class el{
         }
         this.__events = [];
         this.__children = [];
-        this.data = null;
+        this.__data = null;
     }
     update()
     {
@@ -56,7 +56,7 @@ class el{
     }
     effect(data)
     {
-        this.data = data;
+        this.__data = data;
         setTimeout(()=>{this.__subscribe()},0)
         return this
     }
@@ -68,35 +68,35 @@ class el{
             {
                 if (mutation.type === 'childList' && mutation.removedNodes.length) {
                     for (const removedNode of mutation.removedNodes) {
-                        if (removedNode === this.element) {
+                        if (removedNode === this.__element) {
                             this.__unsubscribe()
                         }
                     }
                 }
                 if (mutation.type === 'childList' && mutation.addedNodes.length) {
                     for (const removedNode of mutation.addedNodes) {
-                        if (removedNode === this.element) {
+                        if (removedNode === this.__element) {
                             this.__subscribe()
                         }
                     }
                 }
             }
         });
-        observer.observe(this.element.parentElement, { childList: true });
+        observer.observe(this.__element.parentElement, { childList: true });
     }
     __subscribe()
     {
-        if(this.data)
+        if(this.__data)
         {
-            this.data.__subscribe(()=>this.update())
+            this.__data.__subscribe(()=>this.update())
         }
     }
     __unsubscribe()
     {
         for(const child of this.__children) child.__unsubscribe()
-        if(this.data)
+        if(this.__data)
         {
-            this.data.__unsubscribe(()=>this.update())
+            this.__data.__unsubscribe(()=>this.update())
         }
     }
 
@@ -150,15 +150,15 @@ class el{
                     {
                         if(previous)
                         {
-                            this.element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
+                            this.__element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
                         }
                         previous = classes
                     }
-                    this.element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
+                    this.__element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
                 }
                 else
                 {
-                    this.element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
+                    this.__element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
                     previous = null
                 }
             }
@@ -167,40 +167,40 @@ class el{
     }
     parent(object)
     {
-        if(object.element !== undefined)
+        if(object.__element !== undefined)
         {
-            object.element.appendChild(this.element);
+            object.__element.appendChild(this.__element);
             object.__children.push(this)
         }
         else
         {
-            object.appendChild(this.element);
+            object.appendChild(this.__element);
         }
         this.__observeParent();
         return this
     }
     parentBefore(object)
     {
-        if(object.element !== undefined)
+        if(object.__element !== undefined)
         {
-            if(object.element.firstChild)
+            if(object.__element.firstChild)
             {
-                object.element.insertBefore(this.element, object.element.firstChild);
+                object.__element.insertBefore(this.__element, object.__element.firstChild);
             }
             else
             {
-                object.element.appendChild(this.element);
+                object.__element.appendChild(this.__element);
             }
         }
         else
         {
             if(object.firstChild)
             {
-                object.insertBefore(this.element, object.firstChild);
+                object.insertBefore(this.__element, object.firstChild);
             }
             else
             {
-                object.appendChild(this.element);
+                object.appendChild(this.__element);
             }
         }
         this.__observeParent();
@@ -208,30 +208,25 @@ class el{
     }
     event(event, callback)
     {
-        this.element.addEventListener(event, callback);
+        this.__element.addEventListener(event, callback);
         return this
     }
     property(name, value)
     {
         this.__handleEffect(this.__isReactive(name,value),()=>{
-            this.element[this.__handleFunction(name)] = this.__handleFunction(value);
+            this.__element[this.__handleFunction(name)] = this.__handleFunction(value);
         })
         return this
     }
-    style(name, value = null)
+    text_style(value = null)
     {
-        this.__handleEffect(this.__isReactive(name,value),()=>{
-            if(this.__handleFunction(value))
-            {
-                this.element.style[this.__handleFunction(name)] = this.__handleFunction(value);
-            }
-            else
-            {
-                const styles = this.__handleFunction(name).split(';').filter((style) => style.length > 0);
-                for(const style of styles) {
+        this.__handleEffect(this.__isReactive(value),()=>{
+            const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
+            for(const style of styles) {
+                this.__handleEffect(this.__isReactive(value,value),()=>{
                     const [key, value] = style.split(':');
-                    this.element.style[key] = value;
-                }
+                    this.__element.style[key] = this.__handleFunction(value);
+                })
             }
         })
         return this
@@ -239,18 +234,14 @@ class el{
 
     get_computed_style(name)
     {
-        return window.getComputedStyle(this.element).getPropertyValue(name)
+        return window.getComputedStyle(this.__element).getPropertyValue(name)
     }
 
-    get_property(name)
-    {
-        return this.element[name]
-    }
     
     html(value)
     {
         this.__handleEffect(this.__isReactive(value),()=>{
-            this.element.innerHTML = this.__handleFunction(value)
+            this.__element.innerHTML = this.__handleFunction(value)
         })
         return this
     }
@@ -270,23 +261,23 @@ class el{
             {
                 if(old !== null)
                 {
-                    if(old.element !== undefined)
+                    if(old.__element !== undefined)
                     {
                         old.remove()
                     }
                     else
                     {
-                        this.element.removeChild(old)
+                        this.__element.removeChild(old)
                     }
                 }
                 
-                if(item.element !== undefined)
+                if(item.__element !== undefined)
                 {
                     item.parent(this)
                 }
                 else
                 {
-                    this.element.appendChild(item)
+                    this.__element.appendChild(item)
                 }
                 old = item
             }
@@ -297,14 +288,14 @@ class el{
     text(value)
     {
         const text = document.createTextNode(this.__handleFunction(value));
-        this.element.appendChild(text);
+        this.__element.appendChild(text);
         this.__handleEffect(this.__isReactive(value),()=>{
             text.textContent = this.__handleFunction(value)
         })
     }
     remove()
     {
-        this.element.remove();
+        this.__element.remove();
     }
 
     model(get,set)
@@ -318,15 +309,49 @@ class el{
 }
 
 export function element(type) {
+
+    function intercept(target, name)
+    {
+        if(typeof target[name] !== "object")
+        {
+            return target[name]
+        }
+        const result = new Proxy(target[name], {
+            set: (target, name, value) => {
+                proxy.__handleEffect(proxy.__isReactive(value),()=>{
+                    target[name] = proxy.__handleFunction(value);
+                })
+                return true;
+            },
+            get: (target, name) => {
+                return intercept(target, name);
+            }
+        });
+        return result
+    }
+
     const proxy = new Proxy(new el(type), {
         get: (target, name) =>{
             if (name in target) {
                 return target[name]
             }
-            else if (name in target.element) {
-                return target.element[name];
+            else if (name in target.__element) {
+                return intercept(target.__element, name);
             }
         },
+        set: (target, name, value) => {
+            if (name in target) {
+                target[name] = value;
+            }
+            else if(name == "style")
+            {
+                target.text_style(value)
+            }
+            else if (name in target.__element) {
+                target.property(name, value);
+            }
+            return true;
+        }
 
     });
     return proxy;
@@ -385,12 +410,12 @@ export const JSXDOM = (name, props, ...children) => {
             {
                 for(const [key, value] of Object.entries(prop))
                 {
-                    el.style(key, value)
+                    el.style[key] = value
                 }
             }
             else
             {
-                el.style(prop)
+                el.style = prop
             }
         },
          "class":(prop)=>{
@@ -452,12 +477,12 @@ export const JSXDOM = (name, props, ...children) => {
                     else 
                     if (typeof child === 'function')
                     {
-                        const container = new element("span").parent(el)
+                        const container = element("span").parent(el)
                         container.child(child)
                     }
                     else
                     {
-                        if(child.element) 
+                        if(child.__element) 
                         {
                             child.parent(el);
                         }
