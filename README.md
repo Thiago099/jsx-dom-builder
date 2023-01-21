@@ -155,7 +155,7 @@ const app =
 
 app.parent(document.body)
 ```
-## Dynamic content example
+## Dynamic html example
 
 ![image](https://user-images.githubusercontent.com/66787043/213873411-1a35a89a-2a11-4774-b333-79e5fdfaf703.png)
 
@@ -189,6 +189,8 @@ app.parent(document.body)
 
 ## Other examples
 
+![image](https://user-images.githubusercontent.com/66787043/202039923-39d4c73f-73ba-4aac-b784-ea49e45aa7b8.png)
+
 [page with this example content](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
 [source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
@@ -209,7 +211,7 @@ const app =
 app.parent(document.body)
 ```
 
-![image](https://user-images.githubusercontent.com/66787043/202039923-39d4c73f-73ba-4aac-b784-ea49e45aa7b8.png)
+
 
 Just like to react you can create a component:
 
