@@ -15,13 +15,16 @@ export function effect(initial_value){
     }
     initial_value.__unsubscribe = unsubscribe;
 
+    
     const data = ObservableSlim.create(initial_value, true, (changes)=> {
         for(const callback of callbacks){
             callback(data);
         }
     });
+
     return data
 }
+
 
 
 class el{
@@ -278,7 +281,7 @@ class el{
             var item = this.__handleFunction(value)
 
             if(clean_last_item) clean_last_item()
-
+            
             const addAnyElmentAsChild = (item) => 
             {
                 if(item.__element !== undefined)
