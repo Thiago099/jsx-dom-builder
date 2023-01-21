@@ -252,89 +252,64 @@ class el{
         })
         return this
     }
-    child(value)
+    child(value,keep_order=true)
     {
-        var old = null
+
+        var container;
+        if(keep_order)
+        {
+            container = element("span").parent(this)
+        }
+        else
+        {
+            container = this
+        }
+        var clean_last_item = null
+
         this.__handleEffect(this.__isReactive(value),()=>{
 
             var item = this.__handleFunction(value)
 
-            if(typeof item !== "object")
-            {
-                item = document.createTextNode(item)
-            }
+            if(clean_last_item) clean_last_item()
 
-            if(old != item)
+            const addAnyElmentAsChild = (item) => 
             {
-                if(old !== null)
-                {
-                    if(Array.isArray(old))
-                    {
-                        for(const i of old)
-                        {
-                            if(i.__element !== undefined)
-                            {
-                                i.remove()
-                            }
-                            else
-                            {
-                                i.__element.removeChild(old)
-                            }
-                        }
-                    }
-                    else
-                    if(old.__element !== undefined)
-                    {
-                        old.remove()
-                    }
-                    else
-                    {
-                        this.__element.removeChild(old)
-                    }
-                }
-                
-                if(Array.isArray(item))
-                {
-                    for(const i of item)
-                    {
-                        if(i.__element !== undefined)
-                        {
-                            i.parent(this)
-                        }
-                        else
-                        {
-                            this.__element.appendChild(i)
-                        }
-                    }
-                    old = item
-                }
-                else
                 if(item.__element !== undefined)
                 {
-                    item.parent(this)
+                    item.parent(container)
+                }
+                else if(item instanceof HTMLElement)
+                {
+                    container.__element.appendChild(item)
                 }
                 else
                 {
-                    this.__element.appendChild(item)
+                    item = document.createTextNode(item);
+                    container.__element.appendChild(item);
                 }
-                old = item
+                return () => item.remove()
+            }
+
+            if(Array.isArray(item))
+            {
+                var itens_to_remove = []
+                for(const i of item)
+                {
+                    itens_to_remove.push(addAnyElmentAsChild(i))
+                }
+                clean_last_item = () => {
+                    for(const remove_function of itens_to_remove) remove_function()
+                }
+            }
+            else
+            {
+                clean_last_item = addAnyElmentAsChild(item)
             }
         })
         return this
     }
 
-    text(value)
-    {
-        const text = document.createTextNode(this.__handleFunction(value));
-        this.__element.appendChild(text);
-        this.__handleEffect(this.__isReactive(value),()=>{
-            text.textContent = this.__handleFunction(value)
-        })
-    }
-    remove()
-    {
-        this.__element.remove();
-    }
+
 
     model(object,property)
     {
@@ -511,42 +486,7 @@ export const JSXDOM = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            parseChild(child);
-            function parseChild(child)
-            {
-                if(child)
-                {
-                    if(Array.isArray(child))
-                    {
-                        for(const c of child)
-                        {
-                            parseChild(c)
-                        }
-                    }
-                    else 
-                    if (typeof child === 'function')
-                    {
-                        const container = element("span").parent(el)
-                        container.child(child)
-                    }
-                    else
-                    {
-                        if(child.__element) 
-                        {
-                            child.parent(el);
-                        }
-                        else
-                        {
-                            if(typeof child === "object")
-                            {
-                                el.text(JSON.stringify(child));
-                            }
-                            else
-                            el.text(child);
-                        }
-                    }
-                }
-            }
+            el.child(child)
         }
     }
     return el;
