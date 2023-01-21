@@ -298,11 +298,11 @@ class el{
         this.__element.remove();
     }
 
-    model(get,set)
+    model(object,property)
     {
-        this.property("value", get)
+        this.property("value", () => object[property])
         this.event("input", (e) => {
-            set(e.target.value)
+            object[property] = e.target.value
         })
     }
 
@@ -384,16 +384,23 @@ export const JSXDOM = (name, props, ...children) => {
         //     // id is used by ref and should not be set
         //     // remove this block to allow id to be set
         // },
-        "ref": (ref) => {
+        "ref": ([obj,key]) => {
+            
+            obj[key] = el;
 
-            const find = (name) => Object.entries(props).find(([key, value]) => key === name)
+            return
 
-            const id = find("id");
-            if(id)
-            {
-                ref[id[1]] = el;
-                return
-            }
+            // const find = (name) => Object.entries(props).find(([key, value]) => key === name)
+
+            // const id = find("id");
+            // if(id)
+            // {
+            //     ref[id[1]] = el;
+            //     return
+            // }
+
+
+
             // const _class = find("class");
             // if(_class)
             // {
@@ -438,6 +445,10 @@ export const JSXDOM = (name, props, ...children) => {
         "parent":(prop)=>{
             el.parent(prop);
         },
+        "model": ([obj,key]) =>
+        {
+            el.model(obj,key)
+        }
 
     }
 
