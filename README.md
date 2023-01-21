@@ -58,7 +58,8 @@ const element1 = <input type="text"/>
 
 element1
     .effect(data)
-    .value(()=>data)
+    
+element1.value = ()=> data.color
 ```
 
 alternativily you can update using the update function that will do the same but manualy
