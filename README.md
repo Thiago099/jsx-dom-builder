@@ -37,10 +37,6 @@ export default defineConfig({
 
 [here is a page with the goal of this example](https://thiago099.github.io/new-jsx-dom-builder-vite-examples/)
 
-## Legacy examples
-
-[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
-
 ### the main way you whuld aproach this problem
 ```js
 const ref = {}
@@ -100,6 +96,10 @@ ref.make_it_blue.event("click", () => {
 
 app.parent(document.body)
 ```
+
+## Legacy examples
+
+[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
 [source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
