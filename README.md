@@ -2,8 +2,7 @@
 
 ## Description
 
-This is a library that allows to use jsx to create a wrapper to the dom elements, that you can use to change anything within that dom element. also can acess every propery just like you whuld when you are using the document.createElement
-
+This is a library that allows to use jsx to create a wrapper to the dom elements, more info below.
 ## Instalation
 
 Create a vite vanilla app with the command:
@@ -33,7 +32,80 @@ export default defineConfig({
     }
 })
 ```
-# Examples
+# Basics
+
+## Creating
+you can create a element using either jsx or the element funtion, both have the same result object
+```js
+const element1 = 
+<div class="element1"></div>
+
+const element2 = 
+    element("div")
+    .class("element2")
+```
+## Updating
+
+you can automaticaly update using the effect clause wich can be either in the html or in the builder
+```js
+const data = effect({color:"red"})
+const element1 = <input type="text" effect={data} value={()=>data}/>
+```
+
+```js
+const element1 = <input type="text"/>
+
+element1
+    .effect(data)
+    .value(data)
+```
+
+alternativily you can update using the update function that will do the same but manualy
+
+```js
+var color = "red"
+const element1 = <div class={()=>color}>{()=>color}</div>
+
+color = "blue"
+element1.update()
+```
+you can also define any propery to the element just like you whuld with the regular dom (note that if you want add events you will have to use the event function listed below)
+
+```js
+const element3 = <input type="text"/>
+element3.value = "test"
+
+var a = 10
+element3.value = () => a
+```
+
+here is some other options that you have
+```js
+
+var data = effect({bar:"foo"})
+element1.effect(data)
+
+element1
+    .class("my-class")
+    // appends the element to a parent that can be either a dom element or a jsx-dom-builder element
+    .parent(element2)
+    // listens to a event (calls the element.addEventListener)
+    .event("click",e=>{
+        console.log("element1 was clicked")
+    })
+    // add children to a element that can be either a dom element, jsx-dom-builder element, string, object, or a array of either of them combined
+    .child(<div></div>)
+    // gets and sets the value of a element, mostly used for forms
+    .model(data,"bar")
+    // replaces the element style for the following style
+    .set_style("background-color:red")
+    // sets a single instance of style to the element
+    .set_single_style("color","blue")
+    // removes the element from the dom
+    .remove()
+
+```
+# Application Examples
 
 ## Edit property example
 

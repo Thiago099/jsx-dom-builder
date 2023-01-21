@@ -237,21 +237,20 @@ class el{
         return this
     }
 
-    text_style(value)
+    set_style(value)
     {
         this.__handleEffect(this.__isReactive(value),()=>{
             const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
+            this.__element.style = {}
             for(const style of styles) {
-                this.__handleEffect(this.__isReactive(value,value),()=>{
-                    const [key, value] = style.split(':');
-                    this.__element.style[key] = this.__handleFunction(value);
-                })
+                const [key, value] = style.split(':');
+                this.__element.style[key] = this.__handleFunction(value);
             }
         })
         return this
     }
 
-    key_value_style(key, value)
+    set_single_style(key, value)
     {
         this.__handleEffect(this.__isReactive(key,value),()=>{
             this.__element.style[this.__handleFunction(key)] = this.__handleFunction(value);
@@ -382,7 +381,7 @@ export function element(type) {
             }
             else if(name == "style")
             {
-                target.text_style(value)
+                target.set_style(value)
             }
             else if (name in target.__element) {
                 target.property(name, value);
@@ -501,7 +500,7 @@ export const JSXDOM = (name, props, ...children) => {
             {
                 if(!is_component)
                 {
-                    el.property(key, value);
+                    el[key]=value;
                 }
             }
         };
