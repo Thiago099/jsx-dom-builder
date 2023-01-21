@@ -157,6 +157,9 @@ app.parent(document.body)
 ```
 ## Dynamic content example
 
+![image](https://user-images.githubusercontent.com/66787043/213873411-1a35a89a-2a11-4774-b333-79e5fdfaf703.png)
+
+
 [page with this example content](https://thiago099.github.io/jsx-dom-builder-dynamic-content-example/)
 
 ```js
