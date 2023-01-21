@@ -218,7 +218,7 @@ class el{
         })
         return this
     }
-    text_style(value = null)
+    text_style(value)
     {
         this.__handleEffect(this.__isReactive(value),()=>{
             const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
@@ -228,6 +228,13 @@ class el{
                     this.__element.style[key] = this.__handleFunction(value);
                 })
             }
+        })
+        return this
+    }
+    key_value_style(key, value)
+    {
+        this.__handleEffect(this.__isReactive(key,value),()=>{
+            this.__element.style[this.__handleFunction(key)] = this.__handleFunction(value);
         })
         return this
     }
@@ -261,6 +268,21 @@ class el{
             {
                 if(old !== null)
                 {
+                    if(Array.isArray(old))
+                    {
+                        for(const i of old)
+                        {
+                            if(i.__element !== undefined)
+                            {
+                                i.remove()
+                            }
+                            else
+                            {
+                                i.__element.removeChild(old)
+                            }
+                        }
+                    }
+                    else
                     if(old.__element !== undefined)
                     {
                         old.remove()
@@ -271,6 +293,22 @@ class el{
                     }
                 }
                 
+                if(Array.isArray(item))
+                {
+                    for(const i of item)
+                    {
+                        if(i.__element !== undefined)
+                        {
+                            i.parent(this)
+                        }
+                        else
+                        {
+                            this.__element.appendChild(i)
+                        }
+                    }
+                    old = item
+                }
+                else
                 if(item.__element !== undefined)
                 {
                     item.parent(this)
