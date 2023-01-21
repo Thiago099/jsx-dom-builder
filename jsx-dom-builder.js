@@ -16,13 +16,13 @@ export function effect(initial_value){
     initial_value.__unsubscribe = unsubscribe;
 
     const data = ObservableSlim.create(initial_value, true, (changes)=> {
-
         for(const callback of callbacks){
             callback(data);
         }
     });
     return data
 }
+
 
 class el{
     // constructor
@@ -39,29 +39,29 @@ class el{
         {
             throw new Error("Invalid element name");
         }
-        this.events = [];
-        this.children = [];
-        this.on = false
+        this.__events = [];
+        this.__children = [];
+        this.data = null;
     }
-    #handleCallbacks = () =>
+    update()
     {
-        for(const event of this.events)
+        for(const event of this.__events)
         {
             event()
         }
-        for(const child of this.children)
+        for(const child of this.__children)
         {
-            child.#handleCallbacks()
+            child.update()
         }
     }
     effect(data)
     {
         this.data = data;
-        this.#subscribe();
+        setTimeout(()=>{this.__subscribe()},0)
         return this
     }
 
-    #observeParent()
+    __observeParent()
     {
         const observer = new MutationObserver((mutations) => {
             for(const mutation of mutations)
@@ -69,14 +69,14 @@ class el{
                 if (mutation.type === 'childList' && mutation.removedNodes.length) {
                     for (const removedNode of mutation.removedNodes) {
                         if (removedNode === this.element) {
-                            this.#unsubscribe()
+                            this.__unsubscribe()
                         }
                     }
                 }
                 if (mutation.type === 'childList' && mutation.addedNodes.length) {
                     for (const removedNode of mutation.addedNodes) {
                         if (removedNode === this.element) {
-                            this.#subscribe()
+                            this.__subscribe()
                         }
                     }
                 }
@@ -84,23 +84,23 @@ class el{
         });
         observer.observe(this.element.parentElement, { childList: true });
     }
-    #subscribe()
+    __subscribe()
     {
         if(this.data)
         {
-            this.data.__subscribe(this.#handleCallbacks)
+            this.data.__subscribe(()=>this.update())
         }
     }
-    #unsubscribe()
+    __unsubscribe()
     {
-        for(const child of this.children) child.#unsubscribe()
+        for(const child of this.__children) child.__unsubscribe()
         if(this.data)
         {
-            this.data.__unsubscribe(this.#handleCallbacks)
+            this.data.__unsubscribe(()=>this.update())
         }
     }
 
-    #handleFunction(data)
+    __handleFunction(data)
     {
         if(typeof data === "function")
         {
@@ -109,12 +109,12 @@ class el{
         return data
     }
 
-    #handleEffect(isReactive,callback)
+    __handleEffect(isReactive,callback)
     {
         if(isReactive)
         {
             callback()
-            this.events.push(callback)
+            this.__events.push(callback)
         }
         else
         {
@@ -122,7 +122,7 @@ class el{
         }
     }
 
-    #isReactive(...fields)
+    __isReactive(...fields)
     {
         for(const field of fields)
         {
@@ -136,17 +136,17 @@ class el{
 
     class(name, value = true)
     {
-        if(this.#isReactive(name))
+        if(this.__isReactive(name))
         {
-            var previous = this.#handleFunction(name)
+            var previous = this.__handleFunction(name)
         }
-        this.#handleEffect(this.#isReactive(name,value),()=>{
-            const classes = this.#handleFunction(name)
+        this.__handleEffect(this.__isReactive(name,value),()=>{
+            const classes = this.__handleFunction(name)
             if(classes)
             {
-                if(this.#handleFunction(value))
+                if(this.__handleFunction(value))
                 {
-                    if(this.#isReactive(name))
+                    if(this.__isReactive(name))
                     {
                         if(previous)
                         {
@@ -170,13 +170,13 @@ class el{
         if(object.element !== undefined)
         {
             object.element.appendChild(this.element);
-            object.children.push(this)
+            object.__children.push(this)
         }
         else
         {
             object.appendChild(this.element);
         }
-        this.#observeParent();
+        this.__observeParent();
         return this
     }
     parentBefore(object)
@@ -203,7 +203,7 @@ class el{
                 object.appendChild(this.element);
             }
         }
-        this.#observeParent();
+        this.__observeParent();
         return this
     }
     event(event, callback)
@@ -213,21 +213,21 @@ class el{
     }
     property(name, value)
     {
-        this.#handleEffect(this.#isReactive(name,value),()=>{
-            this.element[this.#handleFunction(name)] = this.#handleFunction(value);
+        this.__handleEffect(this.__isReactive(name,value),()=>{
+            this.element[this.__handleFunction(name)] = this.__handleFunction(value);
         })
         return this
     }
     style(name, value = null)
     {
-        this.#handleEffect(this.#isReactive(name,value),()=>{
-            if(this.#handleFunction(value))
+        this.__handleEffect(this.__isReactive(name,value),()=>{
+            if(this.__handleFunction(value))
             {
-                this.element.style[this.#handleFunction(name)] = this.#handleFunction(value);
+                this.element.style[this.__handleFunction(name)] = this.__handleFunction(value);
             }
             else
             {
-                const styles = this.#handleFunction(name).split(';').filter((style) => style.length > 0);
+                const styles = this.__handleFunction(name).split(';').filter((style) => style.length > 0);
                 for(const style of styles) {
                     const [key, value] = style.split(':');
                     this.element.style[key] = value;
@@ -249,17 +249,17 @@ class el{
     
     html(value)
     {
-        this.#handleEffect(this.#isReactive(value),()=>{
-            this.element.innerHTML = this.#handleFunction(value)
+        this.__handleEffect(this.__isReactive(value),()=>{
+            this.element.innerHTML = this.__handleFunction(value)
         })
         return this
     }
     child(value)
     {
         var old = null
-        this.#handleEffect(this.#isReactive(value),()=>{
+        this.__handleEffect(this.__isReactive(value),()=>{
 
-            var item = this.#handleFunction(value)
+            var item = this.__handleFunction(value)
 
             if(typeof item !== "object")
             {
@@ -296,10 +296,10 @@ class el{
 
     text(value)
     {
-        const text = document.createTextNode(this.#handleFunction(value));
+        const text = document.createTextNode(this.__handleFunction(value));
         this.element.appendChild(text);
-        this.#handleEffect(this.#isReactive(value),()=>{
-            text.textContent = this.#handleFunction(value)
+        this.__handleEffect(this.__isReactive(value),()=>{
+            text.textContent = this.__handleFunction(value)
         })
     }
     remove()
@@ -314,10 +314,22 @@ class el{
             set(e.target.value)
         })
     }
+
 }
 
 export function element(type) {
-    return new el(type);
+    const proxy = new Proxy(new el(type), {
+        get: (target, name) =>{
+            if (name in target) {
+                return target[name]
+            }
+            else if (name in target.element) {
+                return target.element[name];
+            }
+        },
+
+    });
+    return proxy;
 }
 
 export function query(selector) {
