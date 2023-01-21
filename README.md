@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a library that allows to use jsx to create a wrapper to the dom elements, that you can use to change anything within that dom element
+This is a library that allows to use jsx to create a wrapper to the dom elements, that you can use to change anything within that dom element. also can acess every propery just like you whuld when you are using the document.createElement
 
 ## Instalation
 
@@ -33,10 +33,163 @@ export default defineConfig({
     }
 })
 ```
+# Examples
 
-## Example
+## Edit property example
 
-[gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
+Here is a example of a page with a red square and a button, when you click the button the red square turns blue
+
+![image](https://user-images.githubusercontent.com/66787043/213872010-a6c7d213-26f3-46c7-9096-16eea23f32e4.png)
+
+
+[page with this example content](https://thiago099.github.io/new-jsx-dom-builder-vite-examples/)
+
+### the main way you whuld aproach this problem
+```js
+const ref = {}
+
+var data = effect({color:"red"})
+
+const app = 
+<div class="container" effect={data}>
+    <div 
+        class="square" 
+        ref={[ref,"colored_square"]} 
+    />
+    <button 
+        ref={[ref,"make_it_blue"]}
+        class="button"
+    >
+        make the square blue
+    </button>
+</div>
+
+ref.colored_square.style.backgroundColor = () => data.color
+
+ref.make_it_blue.event("click", () => {
+    data.color = "blue"
+})
+
+app.parent(document.body)
+```
+### Without using effect
+```js
+import "./style.css"
+
+const ref = {}
+
+var color = "red"
+
+const app = 
+<div class="container">
+    <div 
+        class="square" 
+        ref={[ref,"colored_square"]} 
+    />
+    <button 
+        ref={[ref,"make_it_blue"]}
+        class="button"
+    >
+        make the square blue
+    </button>
+</div>
+
+ref.colored_square.style.backgroundColor = () => color
+
+ref.make_it_blue.event("click", () => {
+    color = "blue"
+    app.update()
+})
+
+app.parent(document.body)
+```
+
+### Without reactivity
+
+```js
+import "./style.css"
+
+const ref = {}
+
+const app = 
+<div class="container">
+    <div 
+        class="square" 
+        ref={[ref,"colored_square"]} 
+    />
+    <button 
+        ref={[ref,"make_it_blue"]}
+        class="button"
+    >
+        make the square blue
+    </button>
+</div>
+
+ref.colored_square.style.backgroundColor = "red"
+
+ref.make_it_blue.event("click", () => {
+    ref.colored_square.style.backgroundColor = "blue"
+    app.update()
+})
+
+app.parent(document.body)
+```
+
+## Model example
+
+
+![image](https://user-images.githubusercontent.com/66787043/213872553-ddc9521d-f28e-4b1f-9ac4-70fad882ad8b.png)
+
+[page with this example content](https://thiago099.github.io/jsx-dom-builder-model-example/)
+
+```js
+import './style.css'
+const ref = {}
+var data = effect({text:"hello world"})
+
+const app = 
+<div class="container" effect={data}>
+    <h1>{() => data.text}</h1>
+    <input type="text" class="input" model={[data,"text"]} />
+</div>
+
+app.parent(document.body)
+```
+## Dynamic content example
+
+![image](https://user-images.githubusercontent.com/66787043/213873411-1a35a89a-2a11-4774-b333-79e5fdfaf703.png)
+
+
+[page with this example content](https://thiago099.github.io/jsx-dom-builder-dynamic-content-example/)
+
+```js
+import './style.css'
+const ref = {}
+var data = effect({list:[],text:""})
+
+const app = 
+<div class="container" effect={data}>
+    <div class="separator">
+        <button class="button" ref={[ref,"addButton"]}>Add</button>
+        <input class="input" type="text" model={[data,"text"]}/>
+    </div>
+    <div class="separator">
+    <ul>
+        {() => data.list.map(item=> <li>{item}</li>)}
+    </ul>
+    </div>
+</div>
+
+ref.addButton.event("click",()=>{
+    data.list.push(data.text)
+    data.text = ""
+})
+app.parent(document.body)
+```
+
+## Other examples
+
+[page with this example content](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
 [source](https://github.com/Thiago099/jsx-dom-builder-vite-example)
 
@@ -103,8 +256,8 @@ export default function RefExample()
 
     const container = 
     <div>
-        <button class="button" id="main" ref={ref}>Main</button>
-        <button class="button" id="secondary" ref={ref}>Secondary</button>
+        <button class="button" ref={[ref,"main"]}>Main</button>
+        <button class="button" ref={[ref,"secondary"]}>Secondary</button>
     </div>
 
     ref.main.event("click", () => alert("Main button clicked") )
