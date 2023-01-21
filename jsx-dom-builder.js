@@ -165,6 +165,7 @@ class el{
         })
         return this
     }
+
     parent(object)
     {
         if(object.__element !== undefined)
@@ -179,6 +180,7 @@ class el{
         this.__observeParent();
         return this
     }
+
     parentBefore(object)
     {
         if(object.__element !== undefined)
@@ -203,14 +205,17 @@ class el{
                 object.appendChild(this.__element);
             }
         }
+
         this.__observeParent();
         return this
     }
+
     event(event, callback)
     {
         this.__element.addEventListener(event, callback);
         return this
     }
+    
     property(name, value)
     {
         this.__handleEffect(this.__isReactive(name,value),()=>{
@@ -218,6 +223,7 @@ class el{
         })
         return this
     }
+
     text_style(value)
     {
         this.__handleEffect(this.__isReactive(value),()=>{
@@ -231,6 +237,7 @@ class el{
         })
         return this
     }
+
     key_value_style(key, value)
     {
         this.__handleEffect(this.__isReactive(key,value),()=>{
@@ -244,7 +251,6 @@ class el{
         return window.getComputedStyle(this.__element).getPropertyValue(name)
     }
 
-    
     html(value)
     {
         this.__handleEffect(this.__isReactive(value),()=>{
@@ -252,7 +258,8 @@ class el{
         })
         return this
     }
-    child(value,keep_order=true)
+
+    child(value, keep_order = true)
     {
 
         var container;
@@ -309,9 +316,13 @@ class el{
         return this
     }
 
+    remove()
+    {
+        this.__element.remove()
+        return this
+    }
 
-
-    model(object,property)
+    model(object, property)
     {
         this.property("value", () => object[property])
         this.event("input", (e) => {
