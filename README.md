@@ -37,7 +37,7 @@ export default defineConfig({
 
 [here is a page with the goal of this example](https://thiago099.github.io/new-jsx-dom-builder-vite-examples/)
 
-## More examples
+## Legacy examples
 
 [gh pages](https://thiago099.github.io/jsx-dom-builder-vite-example/) 
 
