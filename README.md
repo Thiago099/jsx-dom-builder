@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a library that allows to use jsx to create a wrapper to the dom elements, more info below.
+This is a library that allows to use jsx to create a wrapper to the dom elements.
 ## Instalation
 
 Create a vite vanilla app with the command:
