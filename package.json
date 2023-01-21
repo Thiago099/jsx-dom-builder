@@ -1,6 +1,6 @@
 {
   "name": "jsx-dom-builder",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "",
   "main": "jsx-dom-builder.js",
   "scripts": {
@@ -16,10 +16,7 @@
     "url": "https://github.com/Thiago099/jsx-dom-builder/issues"
   },
   "homepage": "https://github.com/Thiago099/jsx-dom-builder#readme",
-  "dependencies": {
-    "observable-slim": "^0.1.6"
-  },
-  "keywords":[
+  "keywords": [
     "front-end",
     "dom",
     "jsx",

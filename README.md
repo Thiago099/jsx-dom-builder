@@ -46,6 +46,8 @@ Here is a example of a page with a red square and a button, when you click the b
 
 ### the main way you whuld aproach this problem
 ```js
+import "./style.css"
+
 const ref = {}
 
 var data = effect({color:"red"})

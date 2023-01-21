@@ -1,28 +1,38 @@
-import ObservableSlim from 'observable-slim';
-
-export function effect(initial_value){
+export function effect(value){
     const callbacks = new Set();
 
     function subscribe(callback){
-        // console.log('subscribe');
         callbacks.add(callback);
     }
-    initial_value.__subscribe = subscribe;
+    value.__subscribe = subscribe;
 
     function unsubscribe(callback){
-        // console.log('unsubscribe');
         callbacks.delete(callback);
     }
-    initial_value.__unsubscribe = unsubscribe;
+    value.__unsubscribe = unsubscribe;
 
-    
-    const data = ObservableSlim.create(initial_value, true, (changes)=> {
-        for(const callback of callbacks){
-            callback(data);
+    var validator = {
+        get(target, key) {
+          if (
+                typeof target[key] === 'object' &&
+                target[key] !== null && 
+                !target[key] instanceof HTMLElement
+            ) 
+            return new Proxy(target[key], validator)
+            return target[key];
+        },
+        set (target, key, value) {
+            target[key] = value;
+            setTimeout(()=>{
+                for(const callback of callbacks){
+                    callback();
+                }
+            },0)
+          return true
         }
-    });
+      }
 
-    return data
+    return new Proxy(value, validator);
 }
 
 
