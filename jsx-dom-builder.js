@@ -529,7 +529,7 @@ export const JSXDOM = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            el.child(child)
+            el.child(child,false)
         }
     }
     return el;
