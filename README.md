@@ -5,6 +5,19 @@
 This is a library that allows to use jsx to create a wrapper to the dom elements.
 ## Instalation
 
+You can get started by running the following commands
+```
+git clone https://github.com/Thiago099/jsx-dom-builder-vite-example
+cd jsx-dom-builder-vite-example
+npm install
+```
+you can start the project with
+```
+npm run dev
+```
+
+### Alternatively, you can install it manually
+
 Create a vite vanilla app with the command:
 ```
 npm create vite
