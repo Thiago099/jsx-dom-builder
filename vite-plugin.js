@@ -4,7 +4,7 @@ module.exports = () => ({
         esbuild: {
             jsxFactory: 'JSXDOM',
             jsxFragment: 'Fragment',
-            jsxInject: `import { element, effect, JSXDOM, Fragment } from "jsx-dom-builder"\n`,
+            jsxInject: `import { ref, element, effect, JSXDOM, Fragment } from "jsx-dom-builder"\n`,
         }
     })
   })

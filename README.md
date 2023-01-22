@@ -135,7 +135,8 @@ Here is an example of a page with a red square and a button, when you click the 
 ```js
 import "./style.css"
 
-const ref = {}
+const colored_square = ref()
+const make_it_blue = ref()
 
 var data = effect({color:"red"})
 
@@ -143,19 +144,19 @@ const app =
 <div class="container" effect={data}>
     <div 
         class="square" 
-        ref={[ref,"colored_square"]} 
+        ref={colored_square} 
     />
     <button 
-        ref={[ref,"make_it_blue"]}
+        ref={make_it_blue}
         class="button"
     >
         make the square blue
     </button>
 </div>
 
-ref.colored_square.style.backgroundColor = () => data.color
+colored_square.style.backgroundColor = () => data.color
 
-ref.make_it_blue.event("click", () => {
+make_it_blue.event("click", () => {
     data.color = "blue"
 })
 
@@ -165,27 +166,29 @@ app.parent(document.body)
 ```js
 import "./style.css"
 
-const ref = {}
+const colored_square = ref()
+const make_it_blue = ref()
 
-var color = "red"
+var data = effect({color:"red"})
 
 const app = 
-<div class="container">
+<div class="container" effect={data}>
     <div 
         class="square" 
-        ref={[ref,"colored_square"]} 
+        ref={colored_square} 
     />
     <button 
-        ref={[ref,"make_it_blue"]}
+        ref={make_it_blue}
         class="button"
     >
         make the square blue
     </button>
 </div>
 
-ref.colored_square.style.backgroundColor = () => color
 
-ref.make_it_blue.event("click", () => {
+colored_square.style.backgroundColor = () => color
+
+make_it_blue.event("click", () => {
     color = "blue"
     app.update()
 })
@@ -198,26 +201,29 @@ app.parent(document.body)
 ```js
 import "./style.css"
 
-const ref = {}
+const colored_square = ref()
+const make_it_blue = ref()
+
+var data = effect({color:"red"})
 
 const app = 
-<div class="container">
+<div class="container" effect={data}>
     <div 
         class="square" 
-        ref={[ref,"colored_square"]} 
+        ref={colored_square} 
     />
     <button 
-        ref={[ref,"make_it_blue"]}
+        ref={make_it_blue}
         class="button"
     >
         make the square blue
     </button>
 </div>
 
-ref.colored_square.style.backgroundColor = "red"
+colored_square.style.backgroundColor = "red"
 
-ref.make_it_blue.event("click", () => {
-    ref.colored_square.style.backgroundColor = "blue"
+make_it_blue.event("click", () => {
+    colored_square.style.backgroundColor = "blue"
     app.update()
 })
 
@@ -233,7 +239,6 @@ app.parent(document.body)
 
 ```js
 import './style.css'
-const ref = {}
 var data = effect({text:"hello world"})
 
 const app = 
@@ -253,13 +258,13 @@ app.parent(document.body)
 
 ```js
 import './style.css'
-const ref = {}
+const addButton = ref()
 var data = effect({list:[],text:""})
 
 const app = 
 <div class="container" effect={data}>
     <div class="separator">
-        <button class="button" ref={[ref,"addButton"]}>Add</button>
+        <button class="button" ref={addButton}>Add</button>
         <input class="input" type="text" model={[data,"text"]}/>
     </div>
     <div class="separator">
@@ -269,7 +274,7 @@ const app =
     </div>
 </div>
 
-ref.addButton.event("click",()=>{
+addButton.event("click",()=>{
     data.list.push(data.text)
     data.text = ""
 })
@@ -343,16 +348,17 @@ You can also pass an object in the ref property and the element will store a ent
 export default function RefExample()
 {
 
-    const ref = {}
+    const main = ref()
+    const secondary = ref()
 
     const container = 
     <div>
-        <button class="button" ref={[ref,"main"]}>Main</button>
-        <button class="button" ref={[ref,"secondary"]}>Secondary</button>
+        <button class="button" ref={main}>Main</button>
+        <button class="button" ref={secondary}>Secondary</button>
     </div>
 
-    ref.main.event("click", () => alert("Main button clicked") )
-    ref.secondary.event("click", () => alert("Secondary button clicked") )
+    main.event("click", () => alert("Main button clicked") )
+    secondary.event("click", () => alert("Secondary button clicked") )
 
     return container
 }

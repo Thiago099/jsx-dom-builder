@@ -34,8 +34,28 @@ export function effect(value){
 
     return new Proxy(value, validator);
 }
+export function ref(ref_object = null)
+{
+    var __ref_object = ref_object
 
-
+    const proxy = new Proxy({}, {
+        get: (target, name) =>{
+            if (__ref_object!=null) {
+                return __ref_object[name]
+            }
+        },
+        set: (target, name, value) => {
+            if(name === "__ref_object") __ref_object = value
+            if (value != null) {
+                __ref_object[name] = value
+                return true
+            }
+            return true;
+        }
+    })
+    return proxy
+    
+}
 
 class el{
     // constructor
@@ -420,9 +440,9 @@ export const JSXDOM = (name, props, ...children) => {
         //     // id is used by ref and should not be set
         //     // remove this block to allow id to be set
         // },
-        "ref": ([obj,key]) => {
+        "ref": (value) => {
             
-            obj[key] = el;
+            value.__ref_object = el;
 
             return
 
