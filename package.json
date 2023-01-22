@@ -1,6 +1,6 @@
 {
   "name": "jsx-dom-builder",
-  "version": "2.1.4",
+  "version": "2.1.6",
   "description": "",
   "main": "jsx-dom-builder.js",
   "scripts": {

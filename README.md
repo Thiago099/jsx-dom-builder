@@ -58,7 +58,9 @@ const element2 =
 ```
 ## Updating
 
-You can automatically update using the effect clause which can be either in the html or in the builder
+You can automatically update using the effect clause which can be either in the html or in the builder.
+You can put an arrow function anywhere in this library, and if you do the field will be marked as reactive and will update every time an update is called either manually or automatically.
+
 ```js
 const data = effect({color:"red"})
 const element1 = <input type="text" effect={data} value={() => data}/>
@@ -78,7 +80,7 @@ Alternatively, you can update manually using the update function
 
 ```js
 var color = "red"
-const element1 = <div class={() => color}>{() => color}</div>
+const element1 = <div>{() => color}</div>
 
 color = "blue"
 element1.update()
