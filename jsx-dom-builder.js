@@ -94,6 +94,16 @@ class el{
         return this
     }
 
+    if(condition)
+    {
+        
+        this.__handleEffect(this.__isReactive(condition),()=>{
+            const conditon_parsed = this.__handleFunction(condition)
+            this.set_single_style("display",conditon_parsed?"":"none")
+        })
+        return this
+    }
+
     __observeParent()
     {
         const observer = new MutationObserver((mutations) => {
@@ -504,7 +514,14 @@ export const JSXDOM = (name, props, ...children) => {
         "model": ([obj,key]) =>
         {
             el.model(obj,key)
-        }
+        },
+        "event": ([obj,key]) =>
+        {
+            el.event(obj,key)
+        },
+        "if":(prop)=>{
+            el.if(prop);
+        },
 
     }
 
