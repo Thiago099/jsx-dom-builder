@@ -78,6 +78,7 @@ class el{
 
         this.__unmounted_events = [];
         this.__mounted_events = [];
+        this.__parent = null
     }
     update()
     {
@@ -226,8 +227,14 @@ class el{
         return this
     }
 
+    get parent_element()
+    {
+        return this.__parent
+    }
+
     parent(object)
     {
+        this.__parent = object
         if(object.__element !== undefined)
         {
             object.__element.appendChild(this.__element);
@@ -243,6 +250,7 @@ class el{
 
     parentBefore(object)
     {
+        this.__parent = object;
         if(object.__element !== undefined)
         {
             if(object.__element.firstChild)
@@ -387,6 +395,7 @@ class el{
 
     remove()
     {
+        this.__parent = null
         this.__element.remove()
         return this
     }
