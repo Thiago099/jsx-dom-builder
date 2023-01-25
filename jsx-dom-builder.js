@@ -227,7 +227,7 @@ class el{
         return this
     }
 
-    get parent_element()
+    get parentElement()
     {
         return this.__parent
     }
@@ -400,12 +400,10 @@ class el{
         return this
     }
 
-    model(object, property)
+    model([get, set])
     {
-        this.property("value", () => object[property])
-        this.event("input", (e) => {
-            object[property] = e.target.value
-        })
+        this.property("value", get)
+        this.on("input", e => set(e.target.value))
     }
 
 }
@@ -550,17 +548,17 @@ export const JSXDOM = (name, props, ...children) => {
         "if":(prop)=>{
             el.if(prop);
         },
-
+        "model": (getset) =>
+        {
+            el.model(getset)
+        },
     }
     const extraHandles = {
         "on": (event,callback) =>
         {
             el.on(event,callback)
         },
-        "model": (obj,key) =>
-        {
-            el.model(obj,key)
-        },
+
     }
 
     if(props)
