@@ -542,20 +542,32 @@ export const JSXDOM = (name, props, ...children) => {
         {
             el.model(obj,key)
         },
-        "on": ([obj,key]) =>
-        {
-            el.on(obj,key)
-        },
+
         "if":(prop)=>{
             el.if(prop);
         },
 
+    }
+    const extraHandles = {
+        "on": (event,callback) =>
+        {
+            el.on(event,callback)
+        },
     }
 
     if(props)
     {
         for(const [key, value] of Object.entries(props))
         {
+            const splitKey = key.split(":");
+            if(splitKey.length == 2)
+            {
+                if(extraHandles[splitKey[0]])
+                {
+                    extraHandles[splitKey[0]](splitKey[1],value)
+                }
+            }
+            else
             if(handlers[key])
             {
                 handlers[key](value)
