@@ -538,11 +538,6 @@ export const JSXDOM = (name, props, ...children) => {
         "parent":(prop)=>{
             el.parent(prop);
         },
-        "model": ([obj,key]) =>
-        {
-            el.model(obj,key)
-        },
-
         "if":(prop)=>{
             el.if(prop);
         },
@@ -552,6 +547,10 @@ export const JSXDOM = (name, props, ...children) => {
         "on": (event,callback) =>
         {
             el.on(event,callback)
+        },
+        "model": (obj,key) =>
+        {
+            el.model(obj,key)
         },
     }
 
