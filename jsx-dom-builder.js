@@ -403,7 +403,7 @@ class el{
     model(object, property)
     {
         this.property("value", () => object[property])
-        this.event("input", (e) => {
+        this.on("input", (e) => {
             object[property] = e.target.value
         })
     }
@@ -557,7 +557,7 @@ export const JSXDOM = (name, props, ...children) => {
         {
             el.on(event,callback)
         },
-        "model": (obj,key) =>
+        "model": (key,obj) =>
         {
             el.model(obj,key)
         },
