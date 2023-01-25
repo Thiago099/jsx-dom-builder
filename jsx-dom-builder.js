@@ -542,9 +542,9 @@ export const JSXDOM = (name, props, ...children) => {
         {
             el.model(obj,key)
         },
-        "event": ([obj,key]) =>
+        "on": ([obj,key]) =>
         {
-            el.event(obj,key)
+            el.on(obj,key)
         },
         "if":(prop)=>{
             el.if(prop);
