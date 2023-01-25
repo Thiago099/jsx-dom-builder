@@ -75,6 +75,9 @@ class el{
         this.__events = [];
         this.__children = [];
         this.__data = null;
+
+        this.__unmounted_events = [];
+        this.__mounted_events = [];
     }
     update()
     {
@@ -106,6 +109,12 @@ class el{
 
     __observeParent()
     {
+        setTimeout(()=>{
+            for(const event of this.__mounted_events)
+            {
+                event()
+            }
+        },0)
         const observer = new MutationObserver((mutations) => {
             for(const mutation of mutations)
             {
@@ -113,6 +122,10 @@ class el{
                     for (const removedNode of mutation.removedNodes) {
                         if (removedNode === this.__element) {
                             this.__unsubscribe()
+                            for(const event of this.__unmounted_events)
+                            {
+                                event()
+                            }
                         }
                     }
                 }
@@ -120,6 +133,10 @@ class el{
                     for (const removedNode of mutation.addedNodes) {
                         if (removedNode === this.__element) {
                             this.__subscribe()
+                            for(const event of this.__mounted_events)
+                            {
+                                event()
+                            }
                         }
                     }
                 }
@@ -253,10 +270,20 @@ class el{
         return this
     }
 
-    event(event, callback)
+    on(event, callback)
     {
         this.__element.addEventListener(event, callback);
         return this
+    }
+
+    mounted(callback)
+    {
+        this.__mounted_events.push(callback)
+    }
+
+    unmounted(callback)
+    {
+        this.__unmounted_events.push(callback)
     }
     
     property(name, value)
