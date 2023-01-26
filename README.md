@@ -7,8 +7,8 @@ This is a library that allows to use jsx to create a wrapper to the dom elements
 
 You can get started by running the following commands
 ```
-git clone https://github.com/Thiago099/jsx-dom-builder-vite-example
-cd jsx-dom-builder-vite-example
+git clone https://github.com/Thiago099/basic-jsx-dom-builder-project your-project-name
+cd your-project-name
 npm install
 ```
 you can start the project with
