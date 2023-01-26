@@ -1,26 +1,3 @@
-export function ref(ref_object = null)
-{
-    var __ref_object = ref_object
-
-    const proxy = new Proxy({}, {
-        get: (target, name) =>{
-            if (__ref_object!=null) {
-                return __ref_object[name]
-            }
-        },
-        set: (target, name, value) => {
-            if(name === "__ref_object") __ref_object = value
-            if (value != null) {
-                __ref_object[name] = value
-                return true
-            }
-            return true;
-        }
-    })
-    return proxy
-    
-}
-
 class el{
     // constructor
     constructor(name) {
@@ -300,11 +277,11 @@ class el{
         return this
     }
 
-    child(value, keep_order = true)
+    child(value)
     {
 
         var container;
-        if(keep_order)
+        if(this.__isReactive(value))
         {
             container = element("span").parent(this)
         }
@@ -364,7 +341,7 @@ class el{
         return this
     }
 
-    model([get, set])
+    model(get, set)
     {
         this.property("value", get)
         this.on("input", e => set(e.target.value))

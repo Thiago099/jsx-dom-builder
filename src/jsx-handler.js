@@ -19,37 +19,8 @@ export const JSXDOM = (name, props, ...children) => {
 
     
     const handlers = {
-        // "id": (value) =>{
-        //     // id is used by ref and should not be set
-        //     // remove this block to allow id to be set
-        // },
         "ref": (value) => {
-            
             value.__ref_object = el;
-
-            return
-
-            // const find = (name) => Object.entries(props).find(([key, value]) => key === name)
-
-            // const id = find("id");
-            // if(id)
-            // {
-            //     ref[id[1]] = el;
-            //     return
-            // }
-
-
-
-            // const _class = find("class");
-            // if(_class)
-            // {
-            //     const classes = _class[1].split(" ").filter((c) => c.length > 0);
-            //     if(classes.length > 0)
-            //     {
-            //         ref[classes[0]] = el;
-            //     }
-            //     return
-            // }
         },
         "style":(prop)=>{
             if(typeof prop === "object")
@@ -87,9 +58,9 @@ export const JSXDOM = (name, props, ...children) => {
         "if":(prop)=>{
             el.if(prop);
         },
-        "model": (getset) =>
+        "model": ([get,set]) =>
         {
-            el.model(getset)
+            el.model(get,set)
         },
     }
     const extraHandles = {
@@ -130,7 +101,7 @@ export const JSXDOM = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            el.child(child,false)
+            el.child(child)
         }
     }
     return el;
