@@ -76,6 +76,6 @@ const app =
     </div>
 </div>
 
-// the $parent function will append an element to either another element or a dom element
+// the $parent function will append an element to another element, in this case the body
 app.$parent(document.body)
 ```
