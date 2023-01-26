@@ -2,7 +2,16 @@
 import { matchPattern } from "./pattern_matching.js"
 import { pattern } from "./parse.js"
 
-export const input_blacklist = ["model","effect","ref","parent","on","mounted","unmounted","get_computed_style"]
+export const input_blacklist = [
+    "model",
+    "effect",
+    "ref",
+    "parent",
+    "on",
+    "mounted",
+    "unmounted",
+    "get_computed_style"
+]
 export function replace_reactive_prop(key,input)
 {
     if(input_blacklist.includes(key)) return input

@@ -12,7 +12,6 @@ export default () => ({
     transform(code, id, options) {
         if (id.endsWith('.jsx')) {
             code = parse(code);
-            console.log(code);
         }
         return code;
       }
