@@ -15,36 +15,6 @@ you can start the project with
 ```
 npm run dev
 ```
-
-### Alternatively, you can install it manually
-
-Create a vite vanilla app with the command:
-```
-npm create vite
-```
-open the project folder and run the following commands
-```
-npm install
-npm install jsx-dom-builder
-```
-
-create the `vite.config.js` in the root directory of your project, with the following code:
-
-```js
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from "vite"
-import  jsxDomBuilderVitePlugin  from "jsx-dom-builder/vite-plugin"
-export default defineConfig({
-    // this adds the plugin necessáry for this library to work
-    plugins:[jsxDomBuilderVitePlugin()],
-    // make the @ as a alias to the src folder (opitional but recomended)
-    resolve: {
-        alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
-        }
-    }
-})
-```
 # Example
 
 ## From
