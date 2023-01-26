@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Thiago099/jsx-dom-builder.git"
@@ -21,5 +22,9 @@
     "dom",
     "jsx",
     "vite"
-  ]
+  ],
+  "dependencies": {
+    "acorn": "8.8.2",
+    "escodegen": "2.0.0"
+  }
 }
