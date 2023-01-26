@@ -27,12 +27,12 @@ export const JSXDOM = (name, props, ...children) => {
             {
                 for(const [key, value] of Object.entries(prop))
                 {
-                    el.style[key] = value
+                    el.$style(key,value)
                 }
             }
             else
             {
-                el.style = prop
+                el.$style(prop)
             }
         },
          "class":(prop)=>{
@@ -41,32 +41,32 @@ export const JSXDOM = (name, props, ...children) => {
             {
                 for(const [key, value] of Object.entries(prop))
                 {
-                    el.class(key,value);
+                    el.$class(key,value);
                 }
             }
             else
             {
-                el.class(prop);
+                el.$class(prop);
             }
         },
         "effect":(prop)=>{
-            el.effect(prop);
+            el.$effect(prop);
         },
         "parent":(prop)=>{
-            el.parent(prop);
+            el.$parent(prop);
         },
         "if":(prop)=>{
-            el.if(prop);
+            el.$if(prop);
         },
         "model": ([get,set]) =>
         {
-            el.model(get,set)
+            el.$model([get,set])
         },
     }
     const extraHandles = {
         "on": (event,callback) =>
         {
-            el.on(event,callback)
+            el.$on(event,callback)
         },
 
     }
@@ -101,7 +101,7 @@ export const JSXDOM = (name, props, ...children) => {
     {
         for(const child of children)
         {
-            el.child(child)
+            el.$child(child)
         }
     }
     return el;

@@ -2,11 +2,11 @@
 import { matchPattern } from "./pattern_matching.js"
 import { pattern } from "./parse.js"
 
-const input_blacklist = ["model","effect","ref","parent"]
-export function replace_reactive_prop(input)
+export const input_blacklist = ["model","effect","ref","parent","on","mounted","unmounted","get_computed_style"]
+export function replace_reactive_prop(key,input)
 {
-    if(input_blacklist.includes(input.key.name)) return input.value
-    return replace_reactive(input.value)
+    if(input_blacklist.includes(key)) return input
+    return replace_reactive(input)
 }
 export function replace_reactive(input)
 {
@@ -23,16 +23,14 @@ export function replace_reactive(input)
         "body": input
     }
 }
-export function replace_model(input)
+export function replace_model(key,input)
 {
-    if(input.key.name != "model")
+    if(key != "model")
     {
-        return input.value
+        return input
     }
     return {
         "type": "ArrayExpression",
-        "start": 66,
-        "end": 102,
         "elements": [
             {
                 "type": "ArrowFunctionExpression",
@@ -40,7 +38,7 @@ export function replace_model(input)
                 "generator": false,
                 "async": false,
                 "params": [],
-                "body": input.value
+                "body": input
             },
             {
                 "type": "ArrowFunctionExpression",
@@ -50,15 +48,13 @@ export function replace_model(input)
                 "params": [
                     {
                         "type": "Identifier",
-                        "start": 77,        
-                        "end": 83,
                         "name": "_model_value"    
                     }
                 ],
                 "body": {
                     "type": "AssignmentExpression",
                     "operator": "=",        
-                    "left": input.value,
+                    "left": input,
                     "right": {
                         "type": "Identifier",
                         "name": "_model_value"    

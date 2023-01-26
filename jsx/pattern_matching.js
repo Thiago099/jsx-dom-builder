@@ -26,7 +26,11 @@ export function findPattern(object, pattern)
 }
 export function matchPattern(input, pattern)
 {
-    if(typeof pattern === "object")
+    if(pattern instanceof RegExp)
+    {
+        return pattern.test(input)
+    }
+    else if(typeof pattern === "object")
     {
         if(!input || typeof input !== "object") return false
         for(const [key,item] of Object.entries(pattern))

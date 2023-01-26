@@ -21,7 +21,7 @@ class el{
         this.__mounted_events = [];
         this.__parent = null
     }
-    update()
+    $update()
     {
         for(const event of this.__events)
         {
@@ -29,17 +29,17 @@ class el{
         }
         for(const child of this.__children)
         {
-            child.update()
+            child.$update()
         }
     }
-    effect(data)
+    $effect(data)
     {
         this.__data = data;
         setTimeout(()=>{this.__subscribe()},0)
         return this
     }
 
-    if(condition)
+    $if(condition)
     {
         
         this.__handleEffect(this.__isReactive(condition),()=>{
@@ -90,7 +90,7 @@ class el{
     {
         if(this.__data)
         {
-            this.__data.__subscribe(()=>this.update())
+            this.__data.__subscribe(()=>this.$update())
         }
     }
     __unsubscribe()
@@ -98,7 +98,7 @@ class el{
         for(const child of this.__children) child.__unsubscribe()
         if(this.__data)
         {
-            this.__data.__unsubscribe(()=>this.update())
+            this.__data.__unsubscribe(()=>this.$update())
         }
     }
 
@@ -136,7 +136,7 @@ class el{
         return false
     }
 
-    class(name, value = true)
+    $class(name, value = true)
     {
         if(this.__isReactive(name))
         {
@@ -173,7 +173,7 @@ class el{
         return this.__parent
     }
 
-    parent(object)
+    $parent(object)
     {
         this.__parent = object
         if(object.__element !== undefined)
@@ -189,7 +189,7 @@ class el{
         return this
     }
 
-    parentBefore(object)
+    $parentBefore(object)
     {
         this.__parent = object;
         if(object.__element !== undefined)
@@ -219,23 +219,23 @@ class el{
         return this
     }
 
-    on(event, callback)
+    $on(event, callback)
     {
         this.__element.addEventListener(event, callback);
         return this
     }
 
-    mounted(callback)
+    $mounted(callback)
     {
         this.__mounted_events.push(callback)
     }
 
-    unmounted(callback)
+    $unmounted(callback)
     {
         this.__unmounted_events.push(callback)
     }
     
-    property(name, value)
+    $property(name, value)
     {
         this.__handleEffect(this.__isReactive(name,value),()=>{
             this.__element[this.__handleFunction(name)] = this.__handleFunction(value);
@@ -243,8 +243,13 @@ class el{
         return this
     }
 
-    set_style(value)
+    $style(value, alt=null)
     {
+        if(alt)
+        {
+            this.__style(value, alt)
+            return this
+        }
         this.__handleEffect(this.__isReactive(value),()=>{
             const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
             this.__element.style = {}
@@ -256,7 +261,7 @@ class el{
         return this
     }
 
-    set_single_style(key, value)
+    __style(key, value)
     {
         this.__handleEffect(this.__isReactive(key,value),()=>{
             this.__element.style[this.__handleFunction(key)] = this.__handleFunction(value);
@@ -264,12 +269,12 @@ class el{
         return this
     }
 
-    get_computed_style(name)
+    $get_computed_style(name)
     {
         return window.getComputedStyle(this.__element).getPropertyValue(name)
     }
 
-    html(value)
+    $html(value)
     {
         this.__handleEffect(this.__isReactive(value),()=>{
             this.__element.innerHTML = this.__handleFunction(value)
@@ -277,13 +282,13 @@ class el{
         return this
     }
 
-    child(value)
+    $child(value)
     {
 
         var container;
         if(this.__isReactive(value))
         {
-            container = element("span").parent(this)
+            container = element("span").$parent(this)
         }
         else
         {
@@ -301,7 +306,7 @@ class el{
             {
                 if(item.__element !== undefined)
                 {
-                    item.parent(container)
+                    item.$parent(container)
                 }
                 else if(item instanceof HTMLElement)
                 {
@@ -334,17 +339,18 @@ class el{
         return this
     }
 
-    remove()
+    $remove()
     {
         this.__parent = null
         this.__element.remove()
         return this
     }
 
-    model(get, set)
+    $model([get, set])
     {
-        this.property("value", get)
-        this.on("input", e => set(e.target.value))
+        this.$property("value", get)
+        this.$on("input", e => set(e.target.value))
+        return this
     }
 
 }
@@ -386,10 +392,10 @@ export function element(type) {
             }
             else if(name == "style")
             {
-                target.set_style(value)
+                target.$set_style(value)
             }
             else if (name in target.__element) {
-                target.property(name, value);
+                target.$property(name, value);
             }
             return true;
         }
