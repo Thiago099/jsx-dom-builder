@@ -9,10 +9,9 @@ export default () => ({
             jsxInject: `import { ref, element, effect, JSXDOM, Fragment } from "jsx-dom-builder"`,
         }
     }),
-    transform(code, id,options) {
+    transform(code, id, options) {
         if (id.endsWith('.jsx')) {
             code = parse(code);
-            console.log(code);
         }
         return code;
       }
