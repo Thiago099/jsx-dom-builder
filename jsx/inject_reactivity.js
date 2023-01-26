@@ -2,19 +2,37 @@
 import { matchPattern } from "./pattern_matching.js"
 import { pattern } from "./parse.js"
 
-export const input_blacklist = [
+const input_blacklist = [
     "model",
     "effect",
     "ref",
     "parent",
     "on",
+    /on:.+/,
     "mounted",
     "unmounted",
     "get_computed_style"
 ]
+
+export function isOnBlacklist(key)
+{
+    for(const item of input_blacklist)
+    {
+        if(typeof item == "string")
+        {
+            if(item == key) return true
+        }
+        else if(item instanceof RegExp)
+        {
+            if(item.test(key)) return true
+        }
+    }
+    return false
+}
 export function replace_reactive_prop(key,input)
 {
-    if(input_blacklist.includes(key)) return input
+    console.log(key)
+    if(isOnBlacklist(key)) return input
     return replace_reactive(input)
 }
 export function replace_reactive(input)
