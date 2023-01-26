@@ -1,8 +1,7 @@
 # jsx-dom-builder
 
 ## Description
-
-This is a library that allows to use jsx to create a wrapper to the dom elements.
+This is a JSX library, with reactivity, input synchronizing and where you can fully edit every JSX variable and append it to any element.
 ## Instalation
 
 You can get started by running the following commands
