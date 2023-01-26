@@ -24,7 +24,7 @@
     "vite"
   ],
   "dependencies": {
-    "acorn": "^8.8.2",
-    "escodegen": "^2.0.0"
+    "acorn": "8.8.2",
+    "escodegen": "2.0.0"
   }
 }
