@@ -88,7 +88,7 @@ app.$parent(document.body)
 
 [Full source code](https://github.com/Thiago099/jsx-dom-builder-random-color-example)
 
-````js
+```js
 
 import './style.css'
 
