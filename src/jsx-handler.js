@@ -92,7 +92,7 @@ export const JSXDOM = (name, props, ...children) => {
             {
                 if(!is_component)
                 {
-                    el[key]=value;
+                    el.$property(key, value);
                 }
             }
         };
