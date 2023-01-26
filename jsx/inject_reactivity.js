@@ -31,7 +31,6 @@ export function isOnBlacklist(key)
 }
 export function replace_reactive_prop(key,input)
 {
-    console.log(key)
     if(isOnBlacklist(key)) return input
     return replace_reactive(input)
 }
