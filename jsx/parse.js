@@ -8,8 +8,8 @@ export const pattern = {
     }
 }
 
-import { findPattern } from "./pattern.js"
-import { replace_reactive,replace_reactive_prop, replace_model } from "./replace.js"
+import { findPattern } from "./pattern_matching.js"
+import { replace_reactive,replace_reactive_prop, replace_model } from "./inject_reactivity.js"
 
 export function parse(code)
 {

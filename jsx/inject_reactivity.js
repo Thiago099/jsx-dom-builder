@@ -1,9 +1,11 @@
 
-import { matchPattern } from "./pattern.js"
-import { pattern } from "./parsecode.js"
+import { matchPattern } from "./pattern_matching.js"
+import { pattern } from "./parse.js"
+
+const input_blacklist = ["model","effect","ref","parent"]
 export function replace_reactive_prop(input)
 {
-    if(input.key.name == "model") return input.value
+    if(input_blacklist.includes(input.key.name)) return input.value
     return replace_reactive(input.value)
 }
 export function replace_reactive(input)
@@ -23,7 +25,7 @@ export function replace_reactive(input)
 }
 export function replace_model(input)
 {
-    if(input.key.name != "model" || input.value.type != "Identifier")
+    if(input.key.name != "model")
     {
         return input.value
     }
