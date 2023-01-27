@@ -14,6 +14,10 @@ you can start the project with
 ```
 npm run dev
 ```
+and build it with
+```
+npm run build
+```
 # Example
 
 ## From
