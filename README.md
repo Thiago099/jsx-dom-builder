@@ -1,7 +1,7 @@
 # jsx-dom-builder
 
 ## Description
-This is a JSX library, with reactivity, components, input synchronizing and where you can fully edit every JSX variable and append it to any element.
+This is a JSX library, with reactivity, components, input synchronizing and you can fully edit every JSX variable and append it to any element.
 ## Instalation
 
 You can get started by running the following commands
