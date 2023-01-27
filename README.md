@@ -152,3 +152,32 @@ title
 
 app.$parent(document.body)
 ```
+
+### Components
+
+you can create components with the following syntax
+```js
+export default function Card({title}, ...children) {
+    return (
+    <div class="card">
+        <div class="card-header">
+            {title}
+        </div>
+        <div class="card-body">
+            {children}
+        </div>
+    </div>
+    )
+}
+```
+then you can use it like that
+```js
+import Card from '@/components/Card.jsx'
+const app = <div>
+    <Card title="My card title">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        <p>Quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </Card>
+</div>
+```
