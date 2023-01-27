@@ -123,3 +123,30 @@ app
 
 app.$parent(document.body)
 ```
+
+
+## other examples
+
+```js
+
+import './style.css'
+// if you dont want to set the attributes directally on the html
+// you can use ref to acess a element that is not the root of your subtree
+
+const title = ref()
+const app =
+<div>
+    <h1 ref={title}>Hello, world!</h1>
+</div>
+
+var color = "red"
+// then you can edit any of its attributes just like you whuld with the root
+title
+    .$style("color", color)
+    .$on("click",()=>{
+        color = "blue"
+        title.$update()
+    })
+
+app.$parent(document.body)
+```
