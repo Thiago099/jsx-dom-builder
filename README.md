@@ -187,7 +187,7 @@ the functions you can call for each element
 my_element
     // adds a class to a element
     .$class("my-class")
-    // if it is a variable the class will be replaced by the current value every time it runs
+    // if it is a variable the class will be replaced by the current value every time the element updates
     .$class(my_var)
     
     // appends the element to a parent that can be either a dom element or a jsx-dom-builder element
@@ -205,9 +205,11 @@ my_element
     .#model(data)
     
     // replaces the element style for the following style
+    // if it is a variable it will be replaced every time the element updates
     .$style("background-color:red")
     
     // sets a single instance of style to the element
+    // will also update
     .$style("color","blue")
     
     // removes the element from the dom
