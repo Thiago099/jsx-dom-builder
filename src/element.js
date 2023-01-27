@@ -318,7 +318,7 @@ class el{
                     item = document.createTextNode(item);
                     container.__element.appendChild(item);
                 }
-                return () => item.$remove()
+                return () => item.remove()
             }
 
             if(Array.isArray(item))
