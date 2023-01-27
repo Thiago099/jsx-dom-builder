@@ -184,7 +184,7 @@ const app = <div>
 
 the functions you can call for each element
 ```js
-element1
+my_element
     // adds a class to a element
     .$class("my-class")
     // if it is a variable the class will be replaced by the current value every time it runs
