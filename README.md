@@ -181,3 +181,35 @@ const app = <div>
     </Card>
 </div>
 ```
+
+the functions you can call for each element
+```js
+element1
+    // adds a class to a element
+    .$class("my-class")
+    // if it is a variable the class will be replaced by the current value every time it runs
+    .$class(my_var)
+    
+    // appends the element to a parent that can be either a dom element or a jsx-dom-builder element
+    .$parent(element2)
+    
+    // listens to a event (calls the element.addEventListener)
+    .$on("click",e=>{
+        console.log("element1 was clicked")
+    })
+    
+    // add children to a element that can be either a dom element, jsx-dom-builder element, string, object, or a array of either of them combined
+    .#child(<div></div>)
+    
+    // syncronizes the value with a variable
+    .#model(data)
+    
+    // replaces the element style for the following style
+    .$style("background-color:red")
+    
+    // sets a single instance of style to the element
+    .$style("color","blue")
+    
+    // removes the element from the dom
+    .$remove()
+```
