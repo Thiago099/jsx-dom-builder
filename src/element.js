@@ -307,6 +307,7 @@ class el{
                 if(item.__element !== undefined)
                 {
                     item.$parent(container)
+                    return () => item.$remove()
                 }
                 else if(item instanceof HTMLElement)
                 {
