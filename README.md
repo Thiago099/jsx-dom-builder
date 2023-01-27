@@ -127,6 +127,8 @@ app.$parent(document.body)
 
 ## other examples
 
+### ref
+
 ```js
 
 import './style.css'
