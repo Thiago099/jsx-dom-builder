@@ -25,14 +25,14 @@ npm run dev
 
 [Full source code](https://github.com/Thiago099/jsx-dom-builder-form-example)
 
-first you create a reactive object that wi
+
 ```js
 
 // import the style
 import './style.css'
 
-// the effect object can be used just like a normal object.
-// it will update the elements and its children if they have the effect property, or $effect function
+// The effect object can be used just like a normal object.
+// It will update the elements and its children if they have the effect property, or $effect function.
 var data = effect(
 {
     name:"pedro",
@@ -40,7 +40,7 @@ var data = effect(
 });
 
 
-// sample submit method that is called when you click on the button
+// A sample submit method that is called when you click on the button
 function submit()
 {
     alert("Submit logic here")
@@ -52,8 +52,8 @@ const app =
         <div class="input-group">
             <div class="input-container half">
                 <label>Name:</label>
-                {/* the model propery and the $model function will sync any variable with a input
-                  * note that to update the html you need either the effect or the $update function*/}
+                {/* The model properly and the $model function will sync any variable with an input
+                  * Note that to update the html you need either the effect or the $update function*/}
                 <input type="text" model={data.name}></input>
             </div>
             <div class="input-container half">
@@ -64,23 +64,23 @@ const app =
         <div class="tooltip">The model parameter makes the input in sync with any variable.</div>
     </div>
     <div class="card">
-        {/* you can add values to the dom that will update in the same
-          * ocasions as the model */}
+        {/* You can add value to the dom that will update in the same
+          * occasions as the model */}
         <div> Name: {data.name} </div>
         <div> Age: {data.age} </div>
     </div>
     <div class="tooltip">You can also add them directly in the element that they will update either using effect or manually using the "element.$update()".</div>
     <div class="footer-button-container">
-        { /* you can add events, using the property on: and the name of the event*/ }
+        { /* You can add events, using the property on: and the name of the event */ }
         <button on:click={submit}> Submit </button>
     </div>
 </div>
 
-// the $parent function will append an element to another element, in this case the body
+// The $parent function will append an element to another element, in this case the body
 app.$parent(document.body)
 ```
 
-## you can edit the elements after they are created
+## Editing the element after its creation
 
 ![image](https://user-images.githubusercontent.com/66787043/214976038-8a1d6937-6630-4e7b-bcd3-6f83f4a7af72.png)
 
@@ -108,7 +108,6 @@ generate_random_colors()
 
 const app = <div class="main-item" draggable>Click on me to change the color</div>
 
-// you can edit the element after its creation on the jsx, that allows a lot of extra interactions that you cant do without it
 app
 .$style('background-color', background)
 .$style('color', foreground)
@@ -116,8 +115,8 @@ app
     const [random_color,inverse] = generate_random_colors()
     foreground = random_color
     background = inverse
-    // the update function does manually what the effect does automatically, after calling the update function
-    // the dynamic part of the element and its children will be updated
+    // The update function does manually what the effect does automatically, after calling the update function
+    // The dynamic part of the element and its children will be updated
     app.$update()
 })
 
@@ -132,7 +131,7 @@ app.$parent(document.body)
 ```js
 
 import './style.css'
-// if you dont want to set the attributes directally on the html
+// If you don't want to set the attributes directly on the html
 // you can use ref to acess a element that is not the root of your subtree
 
 const title = ref()
@@ -142,7 +141,7 @@ const app =
 </div>
 
 var color = "red"
-// then you can edit any of its attributes just like you whuld with the root
+// Then you can edit any of its attributes just like you would with the root
 title
     .$style("color", color)
     .$on("click",()=>{
@@ -187,31 +186,31 @@ the functions you can call for each element
 my_element
     // adds a class to a element
     .$class("my-class")
-    // if the value is a expression the class will be replaced by the current value every time the element updates
+    // If the value is an expression, the class will be replaced by the current value every time the element updates
     .$class(my_var)
     
-    // appends the element to a parent that can be either a dom element or a jsx-dom-builder element
+    // Appends the element to a parent that can be either a dom element or a jsx-dom-builderjsx-dam-builder element
     .$parent(element2)
     
-    // listens to a event (calls the element.addEventListener)
+    // Listens to a event (calls the element. addEventListener)
     .$on("click",e=>{
         console.log("element1 was clicked")
     })
     
-    // add children to a element that can be either a dom element, jsx-dom-builder element, string, object, or a array of either of them combined
+    // Add children to an element that can be either a dom element, jsx-dom-builder element, string, object, or an array of either of them combined
     .$child(<div></div>)
     
-    // syncronizes the value with a variable
+    // Synchronizes the value to a variable
     .$model(data)
     
-    // replaces the element style for the following style
-    // if the value is a expression it will be replaced every time the element updates
+    // Replaces the element style for the following style
+    // If the value is an expression, it will be replaced every time the element updates
     .$style("background-color:red")
     
-    // sets a single instance of style to the element
-    // will also update
+    // Sets a single instance of the style of the element
+    // Will also update
     .$style("color","blue")
     
-    // removes the element from the dom
+    // Removes the element from the dom
     .$remove()
 ```
