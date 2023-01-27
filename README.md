@@ -199,10 +199,10 @@ my_element
     })
     
     // add children to a element that can be either a dom element, jsx-dom-builder element, string, object, or a array of either of them combined
-    .#child(<div></div>)
+    .$child(<div></div>)
     
     // syncronizes the value with a variable
-    .#model(data)
+    .$model(data)
     
     // replaces the element style for the following style
     // if it is a variable it will be replaced every time the element updates
