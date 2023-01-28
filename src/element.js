@@ -21,6 +21,13 @@ class el{
         this.__mounted_events = [];
         this.__parent = null
     }
+    __update()
+    {
+        for(const event of this.__events)
+        {
+            event()
+        }
+    }
     $update()
     {
         for(const event of this.__events)

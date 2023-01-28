@@ -26,7 +26,7 @@ export function state(value){
         set (target, key, _value) {
             target[key] = _value;
             for(const element of elements){
-                element.$update();
+                element.__update();
             }
           return true
         }
