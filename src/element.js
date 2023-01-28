@@ -331,6 +331,7 @@ class el{
             
             const addAnyElmentAsChild = (item) => 
             {
+                if(item == null) return () => {}
                 if(item.__element !== undefined)
                 {
                     item.$parent(container)

@@ -2,10 +2,12 @@ export function state(value){
     const elements = new Set();
 
     function subscribe(callback){
+        console.log('subscribe', callback);
         elements.add(callback);
     }
 
     function unsubscribe(callback){
+        console.log('unsubscribe', callback);
         elements.delete(callback);
     }
 
