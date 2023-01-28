@@ -23,7 +23,7 @@ export const JSXDOM = (name, props, ...children) => {
             value.__ref_object = el;
         },
         "style":(prop)=>{
-            if(typeof prop === "object")
+            if(prop && prop.key != "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
             {
                 for(const [key, value] of Object.entries(prop))
                 {
@@ -37,7 +37,7 @@ export const JSXDOM = (name, props, ...children) => {
         },
          "class":(prop)=>{
             // if is object
-            if(typeof prop === "object")
+            if(typeof prop === "object" && prop.key != "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
             {
                 for(const [key, value] of Object.entries(prop))
                 {
@@ -48,9 +48,6 @@ export const JSXDOM = (name, props, ...children) => {
             {
                 el.$class(prop);
             }
-        },
-        "effect":(prop)=>{
-            el.$effect(prop);
         },
         "parent":(prop)=>{
             el.$parent(prop);

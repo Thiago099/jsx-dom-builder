@@ -6,12 +6,13 @@ export default () => ({
         esbuild: {
             jsxFactory: 'JSXDOM',
             jsxFragment: 'Fragment',
-            jsxInject: `import { ref, element, effect, JSXDOM, Fragment } from "jsx-dom-builder"`,
+            jsxInject: `import { ref, element, state, JSXDOM, Fragment } from "jsx-dom-builder"`,
         }
     }),
     transform(code, id, options) {
         if (id.endsWith('.jsx')) {
             code = parse(code);
+            console.log(code);
         }
         return code;
       }

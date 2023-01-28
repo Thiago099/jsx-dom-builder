@@ -1,10 +1,9 @@
 
-import { matchPattern } from "./pattern_matching.js"
+import { matchPattern, findPatternShallow } from "./pattern_matching.js"
 import { pattern } from "./parse.js"
 
 const input_blacklist = [
     "model",
-    "effect",
     "ref",
     "parent",
     "on",
@@ -13,6 +12,11 @@ const input_blacklist = [
     "unmounted",
     "get_computed_style"
 ]
+
+const state_pattern = {
+    "type": "MemberExpression",
+    "object": { "type": "Identifier"} 
+}
 
 export function isOnBlacklist(key)
 {
@@ -37,17 +41,77 @@ export function replace_reactive_prop(key,input)
 export function replace_reactive(input)
 {
     if(input.type == "Literal") return input
-    if(input.type == "ArrowFunctionExpression") return input
     if(matchPattern(input, pattern)) return input
+    return handleReactivity(input)
+}
+function handleReactivity(input)
+{
+  if(input.type == "ArrowFunctionExpression") return buildReactiveObject(input)
+  return buildReactiveObject({
+      "type": "ArrowFunctionExpression",      
+      "expression": true,
+      "generator": false,
+      "async": false,
+      "params": [],
+      "body": input
+  })
+}
+function buildReactiveObject(input)
+{
+  const identifiers = findPatternShallow(input,state_pattern).map(x=>x.object);
 
-    return {
-        "type": "ArrowFunctionExpression",      
-        "expression": true,
-        "generator": false,
-        "async": false,
-        "params": [],
-        "body": input
-    }
+    return  {
+        "type": "ObjectExpression",
+        "start": 81,
+        "end": 167,
+        "properties": [
+          {
+            "type": "Property",
+            "method": false,
+            "shorthand": false,
+            "computed": false,
+            "key": {
+              "type": "Identifier",
+              "name": "key"
+            },
+            "value": {
+              "type": "Literal",
+              "value": "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*",
+              "raw": "\"#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*\""
+            },
+            "kind": "init"
+          },
+          {
+            "type": "Property",
+            "method": false,
+            "shorthand": false,
+            "computed": false,
+            "key": {
+              "type": "Identifier",
+              "start": 115,
+              "end": 125,
+              "name": "expression"
+            },
+            "value": input,
+          "kind": "init"
+        },
+          {
+            "type": "Property",
+            "method": false,
+            "shorthand": false,
+            "computed": false,
+            "key": {
+              "type": "Identifier",
+              "name": "elements"
+            },
+            "value": {
+              "type": "ArrayExpression",
+              "elements": identifiers
+            },
+            "kind": "init"
+          }
+        ]
+      }
 }
 export function replace_model(key,input)
 {
@@ -58,14 +122,7 @@ export function replace_model(key,input)
     return {
         "type": "ArrayExpression",
         "elements": [
-            {
-                "type": "ArrowFunctionExpression",
-                "expression": true,
-                "generator": false,
-                "async": false,
-                "params": [],
-                "body": input
-            },
+          buildReactiveObject(input),
             {
                 "type": "ArrowFunctionExpression",
                 "expression": true,

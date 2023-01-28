@@ -15,7 +15,7 @@ class el{
         }
         this.__events = [];
         this.__children = [];
-        this.__data = null;
+        this.__states = new Set();
 
         this.__unmounted_events = [];
         this.__mounted_events = [];
@@ -32,12 +32,6 @@ class el{
             child.$update()
         }
     }
-    $effect(data)
-    {
-        this.__data = data;
-        setTimeout(()=>{this.__subscribe()},0)
-        return this
-    }
 
     $if(condition)
     {
@@ -47,6 +41,23 @@ class el{
             this.set_single_style("display",conditon_parsed?"":"none")
         })
         return this
+    }
+
+    __parseInput(object)
+    {
+        if(object && object.key == "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
+        {
+            for(const element of object.elements)
+            {
+                if(element && element.__subscribe)
+                {
+                    this.__states.add(element);
+                    this.__subscribe()
+                }
+            }
+            return object.expression
+        }
+        return object
     }
 
     __observeParent()
@@ -88,17 +99,23 @@ class el{
     }
     __subscribe()
     {
-        if(this.__data)
+        if(this.__states)
         {
-            this.__data.__subscribe(()=>this.$update())
+            for(const state of this.__states)
+            {
+                state.__subscribe(this)
+            }
         }
     }
     __unsubscribe()
     {
         for(const child of this.__children) child.__unsubscribe()
-        if(this.__data)
+        if(this.__states)
         {
-            this.__data.__unsubscribe(()=>this.$update())
+            for(const state of this.__states)
+            {
+                state.__unsubscribe(this)
+            }
         }
     }
 
@@ -138,6 +155,8 @@ class el{
 
     $class(name, value = true)
     {
+        name = this.__parseInput(name)
+        value = this.__parseInput(value)
         if(this.__isReactive(name))
         {
             var previous = this.__handleFunction(name)
@@ -237,19 +256,22 @@ class el{
     
     $property(name, value)
     {
+        name = this.__parseInput(name)
+        value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(name,value),()=>{
             this.__element[this.__handleFunction(name)] = this.__handleFunction(value);
         })
         return this
     }
 
-    $style(value, alt=null)
+    $style(value, alt = null)
     {
         if(alt)
         {
             this.__style(value, alt)
             return this
         }
+        value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(value),()=>{
             const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
             this.__element.style = {}
@@ -263,6 +285,8 @@ class el{
 
     __style(key, value)
     {
+        key = this.__parseInput(key)
+        value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(key,value),()=>{
             this.__element.style[this.__handleFunction(key)] = this.__handleFunction(value);
         })
@@ -276,6 +300,7 @@ class el{
 
     $html(value)
     {
+        value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(value),()=>{
             this.__element.innerHTML = this.__handleFunction(value)
         })
@@ -284,7 +309,7 @@ class el{
 
     $child(value)
     {
-
+        value = this.__parseInput(value)
         var container;
         if(this.__isReactive(value))
         {
@@ -349,6 +374,7 @@ class el{
 
     $model([get, set])
     {
+        get = this.__parseInput(get)
         this.$property("value", get)
         this.$on("input", e => set(e.target.value))
         return this

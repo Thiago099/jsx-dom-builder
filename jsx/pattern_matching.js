@@ -24,6 +24,37 @@ export function findPattern(object, pattern)
     }
 
 }
+
+
+export function findPatternShallow(object, pattern)
+{
+    const found = [];
+    _findPattern(object);
+    return found;
+    function _findPattern(input)
+    {
+        if(Array.isArray(input))
+        {
+            for(const item of input)
+            {
+                _findPattern(item);
+            }
+        }
+        else if(input && typeof input === "object")
+        {
+            if(matchPattern(input, pattern)) 
+            {
+                found.push(input)
+                return
+            }
+            for(const [key,item] of Object.entries(input))
+            {
+                _findPattern(item);
+            }
+        }
+    }
+
+}
 export function matchPattern(input, pattern)
 {
     if(pattern instanceof RegExp)
