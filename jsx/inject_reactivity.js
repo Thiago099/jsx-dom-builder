@@ -69,7 +69,10 @@ function removeDuplicates(arr, ...prop) {
 
 function parseIdentifier(object)
 {
-  return {obj:object.property.name,prop:object.object.name,data:{
+  return {
+    obj: object.property.name,
+    prop: object.object.name,
+    data: {
     "type": "ObjectExpression",
     "start": 81,
     "end": 167,

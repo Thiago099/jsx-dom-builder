@@ -36,18 +36,7 @@ export const JSXDOM = (name, props, ...children) => {
             }
         },
          "class":(prop)=>{
-            // if is object
-            if(typeof prop === "object" && prop.key != "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
-            {
-                for(const [key, value] of Object.entries(prop))
-                {
-                    el.$class(key,value);
-                }
-            }
-            else
-            {
-                el.$class(prop);
-            }
+            el.$class(prop);
         },
         "parent":(prop)=>{
             el.$parent(prop);

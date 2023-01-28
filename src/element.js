@@ -155,8 +155,9 @@ class el{
         condition = this.__parseInput(condition,properies)
         this.__handleEffect(properies,this.__isReactive(condition),()=>{
             const conditon_parsed = this.__handleFunction(condition)
-            this.set_single_style("display",conditon_parsed?"":"none")
+            this.$style("display",conditon_parsed?"":"none")
         })
+        
         return this
     }
 
