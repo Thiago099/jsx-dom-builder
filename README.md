@@ -36,8 +36,8 @@ npm run build
 import './style.css'
 
 // The effect object can be used just like a normal object.
-// It will update the elements and its children if they have the effect property, or $effect function.
-var data = effect(
+// It will update the the dom
+var data = state(
 {
     name:"pedro",
     age:20
@@ -51,7 +51,7 @@ function submit()
 }
 
 const app = 
-<div effect={data} class="main-container">
+<div class="main-container">
     <div>
         <div class="input-group">
             <div class="input-container half">

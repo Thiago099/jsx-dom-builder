@@ -9,10 +9,11 @@ export function state(value){
         elements.delete(callback);
     }
 
-    var validator = {
+    const validator = {
         get(target, key) {
             if (key === '__subscribe') return subscribe;
             if (key === '__unsubscribe') return unsubscribe;
+            if (key === '__parent_raw') return value;
             if (
                     typeof target[key] === 'object' &&
                     target[key] !== null && 
@@ -21,16 +22,14 @@ export function state(value){
                 return new Proxy(target[key], validator)
                 return target[key];
         },
-        set (target, key, value) {
-            target[key] = value;
-            setTimeout(()=>{
-                for(const element of elements){
-                    element.$update();
-                }
-            },0)
+        set (target, key, _value) {
+            target[key] = _value;
+            for(const element of elements){
+                element.$update({property:key,object:value});
+            }
           return true
         }
       }
-
-    return new Proxy(value, validator);
+    const proxy = new Proxy(value, validator)
+    return proxy;
 }
