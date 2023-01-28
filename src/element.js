@@ -128,7 +128,6 @@ class el{
                 if(value == null || properies.some(x=>x.object === value.object && x.property === value.property ))
                 {
                     callback()
-                    console.log("update")
                 }
             })
         }
