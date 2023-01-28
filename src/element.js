@@ -33,16 +33,6 @@ class el{
         }
     }
 
-    $if(condition)
-    {
-        
-        this.__handleEffect(this.__isReactive(condition),()=>{
-            const conditon_parsed = this.__handleFunction(condition)
-            this.set_single_style("display",conditon_parsed?"":"none")
-        })
-        return this
-    }
-
     __parseInput(object)
     {
         if(object && object.key == "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
@@ -151,6 +141,16 @@ class el{
             }
         }
         return false
+    }
+
+    $if(condition)
+    {
+        condition = this.__parseInput(condition)
+        this.__handleEffect(this.__isReactive(condition),()=>{
+            const conditon_parsed = this.__handleFunction(condition)
+            this.set_single_style("display",conditon_parsed?"":"none")
+        })
+        return this
     }
 
     $class(name, value = true)

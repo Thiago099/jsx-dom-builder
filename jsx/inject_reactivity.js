@@ -6,6 +6,8 @@ const input_blacklist = [
     "model",
     "ref",
     "parent",
+    "parentBefore",
+    "get_computed_style",
     "on",
     /on:.+/,
     "mounted",
