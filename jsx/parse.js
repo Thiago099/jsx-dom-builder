@@ -27,7 +27,7 @@ export function parse(code)
 {
     const parsed = acorn.parse(code, {ecmaVersion: "latest",sourceType: "module"});
 
-    console.log(JSON.stringify(parsed,null,2));
+    // console.log(JSON.stringify(parsed,null,2));
 
     const outside_calls = findPattern(parsed,pattern2);
 
