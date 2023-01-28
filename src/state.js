@@ -17,7 +17,7 @@ export function state(value){
             if (
                     typeof target[key] === 'object' &&
                     target[key] !== null && 
-                    !target[key] instanceof HTMLElement
+                    !(target[key] instanceof HTMLElement)
                 ) 
                 return new Proxy(target[key], validator)
                 return target[key];

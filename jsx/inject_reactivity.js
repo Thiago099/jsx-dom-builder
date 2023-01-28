@@ -17,7 +17,7 @@ const input_blacklist = [
 
 const state_pattern = {
     "type": "MemberExpression",
-    "object": { "type": "Identifier"} 
+    "property": { "type": "Identifier"} 
 }
 
 export function isOnBlacklist(key)
@@ -66,6 +66,7 @@ function removeDuplicates(arr, ...prop) {
       prop.map(mapProp => obj[mapProp]).join('==')) === pos;
   });
 }
+
 
 function parseIdentifier(object)
 {

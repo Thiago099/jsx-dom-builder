@@ -56,8 +56,6 @@ const app =
         <div class="input-group">
             <div class="input-container half">
                 <label>Name:</label>
-                {/* The model properly and the $model function will sync any variable with an input
-                  * Note that to update the html you need either the effect or the $update function*/}
                 <input type="text" model={data.name}></input>
             </div>
             <div class="input-container half">
@@ -84,7 +82,9 @@ const app =
 app.$parent(document.body)
 ```
 
-## Editing the element after its creation
+## Editing the element after its creation and an alternative to state
+
+you can edit every object after its creation, and instead of using state you can manually update the elements
 
 ![image](https://user-images.githubusercontent.com/66787043/214976038-8a1d6937-6630-4e7b-bcd3-6f83f4a7af72.png)
 
