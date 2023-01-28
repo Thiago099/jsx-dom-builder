@@ -22,7 +22,7 @@ npm run build
 
 ## From
 
-![image](https://user-images.githubusercontent.com/66787043/214968406-b38bcd10-20a6-4139-9797-83aac3bd56b1.png)
+![image](https://user-images.githubusercontent.com/66787043/215284801-698eb143-87e0-4983-ac0b-34f6f3e85688.png)
 
 
 [Web page with this interactive example](https://thiago099.github.io/jsx-dom-builder-form-example/)
