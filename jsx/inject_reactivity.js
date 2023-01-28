@@ -59,62 +59,11 @@ function handleReactivity(input)
   })
 }
 
-function removeDuplicates(arr, ...prop) {
-  return arr.filter((obj, pos, arr) => {
-    return arr.map(mapObj =>
-      prop.map(mapProp => mapObj[mapProp]).join('==')).indexOf(
-      prop.map(mapProp => obj[mapProp]).join('==')) === pos;
-  });
-}
 
-
-function parseIdentifier(object)
-{
-  return {
-    obj: object.property.name,
-    prop: object.object.name,
-    data: {
-    "type": "ObjectExpression",
-    "start": 81,
-    "end": 167,
-    "properties": [
-      {
-        "type": "Property",
-        "method": false,
-        "shorthand": false,
-        "computed": false,
-        "key": {
-          "type": "Identifier",
-          "name": "property"
-        },
-        "value": {
-          "type": "Literal",
-          "value": object.property.name,
-          // "raw": "\"#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*\""
-        },
-        "kind": "init"
-      },
-      {
-        "type": "Property",
-        "method": false,
-        "shorthand": false,
-        "computed": false,
-        "key": {
-          "type": "Identifier",
-          "name": "object"
-        },
-        "value": object.object,
-        "kind": "init"
-      },
-    ]
-  }
-  }
-
-}
 
 function buildReactiveObject(input)
 {
-  const identifiers = removeDuplicates(findPatternShallow(input,state_pattern).map(x=>parseIdentifier(x)), "obj", "prop").map(x=>x.data);
+  const identifiers = findPatternShallow(input,state_pattern).map(x=>x.object);
     return  {
         "type": "ObjectExpression",
         "start": 81,

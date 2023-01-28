@@ -13,7 +13,6 @@ export function state(value){
         get(target, key) {
             if (key === '__subscribe') return subscribe;
             if (key === '__unsubscribe') return unsubscribe;
-            if (key === '__parent_raw') return value;
             if (
                     typeof target[key] === 'object' &&
                     target[key] !== null && 
@@ -25,7 +24,7 @@ export function state(value){
         set (target, key, _value) {
             target[key] = _value;
             for(const element of elements){
-                element.$update({property:key,object:value});
+                element.$update();
             }
           return true
         }

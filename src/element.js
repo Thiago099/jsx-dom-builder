@@ -21,29 +21,28 @@ class el{
         this.__mounted_events = [];
         this.__parent = null
     }
-    $update(value = null)
+    $update()
     {
         for(const event of this.__events)
         {
-            event(value)
+            event()
         }
         for(const child of this.__children)
         {
-            child.$update(value)
+            child.$update()
         }
     }
 
-    __parseInput(input, properties)
+    __parseInput(input)
     {
         if(input && input.key == "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
         {
-            for(const {property, object} of input.elements)
+            for(const object of input.elements)
             {
                 if(object && object.__subscribe)
                 {
                     this.__states.add(object);
                     object.__subscribe(this)
-                    properties.push({property,object:object.__parent_raw})
                 }
             }
             return input.expression
@@ -119,17 +118,12 @@ class el{
         return data
     }
 
-    __handleEffect(properies, isReactive, callback)
+    __handleEffect(isReactive, callback)
     {
         if(isReactive)
         {
             callback()
-            this.__events.push((value)=>{
-                if(value == null || properies.some(x=>x.object === value.object && x.property === value.property ))
-                {
-                    callback()
-                }
-            })
+            this.__events.push(callback)
         }
         else
         {
@@ -151,9 +145,8 @@ class el{
 
     $if(condition)
     {
-        const properies = []
-        condition = this.__parseInput(condition,properies)
-        this.__handleEffect(properies,this.__isReactive(condition),()=>{
+        condition = this.__parseInput(condition)
+        this.__handleEffect(this.__isReactive(condition),()=>{
             const conditon_parsed = this.__handleFunction(condition)
             this.$style("display",conditon_parsed?"":"none")
         })
@@ -163,14 +156,13 @@ class el{
 
     $class(name, value = true)
     {
-        const properies = []
-        name = this.__parseInput(name,properies)
-        value = this.__parseInput(value,properies)
+        name = this.__parseInput(name)
+        value = this.__parseInput(value)
         if(this.__isReactive(name))
         {
             var previous = this.__handleFunction(name)
         }
-        this.__handleEffect(properies,this.__isReactive(name,value),()=>{
+        this.__handleEffect(this.__isReactive(name,value),()=>{
             const classes = this.__handleFunction(name)
             if(classes)
             {
@@ -265,11 +257,10 @@ class el{
     
     $property(name, value)
     {
-        const properies = []
-        name = this.__parseInput(name,properies)
-        value = this.__parseInput(value,properies)
+        name = this.__parseInput(name)
+        value = this.__parseInput(value)
 
-        this.__handleEffect(properies, this.__isReactive(name,value),()=>{
+        this.__handleEffect(this.__isReactive(name,value),()=>{
             this.__element[this.__handleFunction(name)] = this.__handleFunction(value);
         })
         return this
@@ -282,9 +273,8 @@ class el{
             this.__style(value, alt)
             return this
         }
-        const properies = []
-        value = this.__parseInput(value,properies)
-        this.__handleEffect(properies,this.__isReactive(value),()=>{
+        value = this.__parseInput(value)
+        this.__handleEffect(this.__isReactive(value),()=>{
             const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
             this.__element.style = {}
             for(const style of styles) {
@@ -297,10 +287,9 @@ class el{
 
     __style(key, value)
     {
-        const properies = []
-        key = this.__parseInput(key,properies)
-        value = this.__parseInput(value,properies)
-        this.__handleEffect(properies,this.__isReactive(key,value),()=>{
+        key = this.__parseInput(key)
+        value = this.__parseInput(value)
+        this.__handleEffect(this.__isReactive(key,value),()=>{
             this.__element.style[this.__handleFunction(key)] = this.__handleFunction(value);
         })
         return this
@@ -313,9 +302,8 @@ class el{
 
     $html(value)
     {
-        const properies = []
-        value = this.__parseInput(value,properies)
-        this.__handleEffect(properies, this.__isReactive(value),()=>{
+        value = this.__parseInput(value)
+        this.__handleEffect(this.__isReactive(value),()=>{
             this.__element.innerHTML = this.__handleFunction(value)
         })
         return this
@@ -323,8 +311,7 @@ class el{
 
     $child(value)
     {
-        const properies = []
-        value = this.__parseInput(value,properies)
+        value = this.__parseInput(value)
         var container;
         if(this.__isReactive(value))
         {
@@ -336,7 +323,7 @@ class el{
         }
         var clean_last_item = null
 
-        this.__handleEffect(properies, this.__isReactive(value),()=>{
+        this.__handleEffect(this.__isReactive(value),()=>{
 
             var item = this.__handleFunction(value)
 
