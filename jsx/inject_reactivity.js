@@ -9,6 +9,7 @@ const input_blacklist = [
     "parentBefore",
     "get_computed_style",
     "find",
+    "then",
     "on",
     /on:.+/,
     "mounted",
