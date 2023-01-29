@@ -42,7 +42,7 @@ class el{
 
     __parseInput(input)
     {
-        if(input && input.key == "#p#>R+@cLCz2?V>Ct=df:^u!rK.,QKW*")
+        if(input && input.key == "e0b8fc2b-fc7e-4786-bc05-b85187a8d065")
         {
             for(const object of input.elements)
             {
