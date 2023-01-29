@@ -10,6 +10,12 @@ git clone https://github.com/Thiago099/basic-jsx-dom-builder-project your-projec
 cd your-project-name
 npm install
 ```
+
+You can do the same but with this repository if you want unit tests
+```
+git clone https://github.com/Thiago099/basic-jsx-dom-builder-project-with-tests your-project-name
+```
+
 you can start the project with
 ```
 npm run dev
