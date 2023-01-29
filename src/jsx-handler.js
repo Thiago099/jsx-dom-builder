@@ -1,5 +1,5 @@
 
-import { element } from './element'
+import { element } from './element.js'
 export const JSXDOM = (name, props, ...children) => {
 
     var el;
