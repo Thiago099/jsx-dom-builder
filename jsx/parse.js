@@ -38,7 +38,7 @@ export function parse(code)
         {
             if(outside_call.arguments.length == 1)
             {
-                outside_call.arguments[0] = replace_model("model",outside_call.arguments[0])
+                outside_call.arguments[0] = replace_model("model", outside_call.arguments[0])
             }
         }
         else
