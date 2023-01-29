@@ -28,6 +28,27 @@ class el{
             event()
         }
     }
+
+
+    $find(selector)
+    {
+        var list = []
+
+        if(this.__element.matches(selector))
+        {
+            list.push(this)
+        }
+        
+        for(const child of this.__children)
+        {
+            list = list.concat(child.$find(selector))
+        }
+
+        return list
+
+    }
+
+    
     $update()
     {
         for(const event of this.__events)
