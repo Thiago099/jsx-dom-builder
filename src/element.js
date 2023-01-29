@@ -81,6 +81,18 @@ class el{
         }
     }
 
+    $click()
+    {
+        this.__element.click()
+        return this
+    }
+    $then(callback)
+    {
+        setTimeout(() => {
+            callback()
+        }, 0)
+    }
+
 
     $find(selector)
     {
