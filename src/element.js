@@ -1,3 +1,55 @@
+export function element(type) {
+    return build_proxy(new el(type));
+}
+
+function build_proxy(element)
+{
+    function intercept(target, name)
+    {
+        if(typeof target[name] !== "object")
+        {
+            return target[name]
+        }
+        const result = new Proxy(target[name], {
+            set: (target, name, value) => {
+                proxy.__handleEffect(proxy.__isReactive(value),()=>{
+                    target[name] = proxy.__handleFunction(value);
+                })
+                return true;
+            },
+            get: (target, name) => {
+                return intercept(target, name);
+            }
+        });
+        return result
+    }
+
+    const proxy = new Proxy(element, {
+        get: (target, name) =>{
+            if (name in target) {
+                return target[name]
+            }
+            else if (name in target.__element) {
+                return intercept(target.__element, name);
+            }
+        },
+        set: (target, name, value) => {
+            if (name in target) {
+                target[name] = value;
+            }
+            else if(name == "style")
+            {
+                target.$set_style(value)
+            }
+            else if (name in target.__element) {
+                target.$property(name, value);
+            }
+            return true;
+        }
+
+    });
+    return proxy
+}
 class el{
     // constructor
     constructor(name) {
@@ -36,7 +88,7 @@ class el{
 
         if(this.__element.matches(selector))
         {
-            list.push(this)
+            list.push(build_proxy(this))
         }
         
         for(const child of this.__children)
@@ -438,51 +490,3 @@ class el{
 
 }
 
-export function element(type) {
-
-    function intercept(target, name)
-    {
-        if(typeof target[name] !== "object")
-        {
-            return target[name]
-        }
-        const result = new Proxy(target[name], {
-            set: (target, name, value) => {
-                proxy.__handleEffect(proxy.__isReactive(value),()=>{
-                    target[name] = proxy.__handleFunction(value);
-                })
-                return true;
-            },
-            get: (target, name) => {
-                return intercept(target, name);
-            }
-        });
-        return result
-    }
-
-    const proxy = new Proxy(new el(type), {
-        get: (target, name) =>{
-            if (name in target) {
-                return target[name]
-            }
-            else if (name in target.__element) {
-                return intercept(target.__element, name);
-            }
-        },
-        set: (target, name, value) => {
-            if (name in target) {
-                target[name] = value;
-            }
-            else if(name == "style")
-            {
-                target.$set_style(value)
-            }
-            else if (name in target.__element) {
-                target.$property(name, value);
-            }
-            return true;
-        }
-
-    });
-    return proxy;
-}
