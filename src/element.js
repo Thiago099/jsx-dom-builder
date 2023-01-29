@@ -6,7 +6,7 @@ function build_proxy(element)
 {
     function intercept(target, name)
     {
-        if(typeof target[name] !== "object")
+        if(typeof target[name] !== "object" || target[name] !== null)
         {
             return target[name]
         }
