@@ -86,6 +86,7 @@ class el{
         this.__element.click()
         return this
     }
+    
     $then(callback)
     {
         setTimeout(() => {
