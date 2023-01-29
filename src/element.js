@@ -86,6 +86,8 @@ class el{
         this.__element.click()
         return this
     }
+
+    /*
     
     $then(callback)
     {
@@ -93,6 +95,8 @@ class el{
             callback()
         }, 0)
     }
+    
+    */
 
 
     $find(selector)
