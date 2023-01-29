@@ -1,5 +1,5 @@
 
-import { matchPattern, findPatternShallow } from "./pattern_matching.js"
+import { matchPattern, findPatternShallow, findPattern } from "./pattern_matching.js"
 import { pattern } from "./parse.js"
 
 const input_blacklist = [
@@ -40,10 +40,18 @@ export function replace_reactive_prop(key,input)
     if(isOnBlacklist(key)) return input
     return replace_reactive(input)
 }
+function isStatic(input)
+{
+  if(input.type == "ArrayExpression") return input.elements.every(x => isStatic(x))
+  if(input.type == "ObjectExpression") return input.properties.every(x => isStatic(x.value))
+  if(input.type == "Literal") return true
+  if(matchPattern(input, pattern)) return true
+  return false
+}
 export function replace_reactive(input)
 {
-    if(input.type == "Literal") return input
-    if(matchPattern(input, pattern)) return input
+
+  if(isStatic(input)) return input
     return handleReactivity(input)
 }
 function handleReactivity(input)
@@ -65,96 +73,96 @@ function buildReactiveObject(input)
 {
   const identifiers = findPatternShallow(input,state_pattern).map(x=>x.object);
     return  {
-        "type": "ObjectExpression",
-        "start": 81,
-        "end": 167,
-        "properties": [
-          {
-            "type": "Property",
-            "method": false,
-            "shorthand": false,
-            "computed": false,
-            "key": {
-              "type": "Identifier",
-              "name": "key"
-            },
-            "value": {
-              "type": "Literal",
-              "value": "e0b8fc2b-fc7e-4786-bc05-b85187a8d065",
-              "raw": "\"e0b8fc2b-fc7e-4786-bc05-b85187a8d065\""
-            },
-            "kind": "init"
+      "type": "ObjectExpression",
+      "start": 81,
+      "end": 167,
+      "properties": [
+        {
+          "type": "Property",
+          "method": false,
+          "shorthand": false,
+          "computed": false,
+          "key": {
+            "type": "Identifier",
+            "name": "key"
           },
-          {
-            "type": "Property",
-            "method": false,
-            "shorthand": false,
-            "computed": false,
-            "key": {
-              "type": "Identifier",
-              "start": 115,
-              "end": 125,
-              "name": "expression"
-            },
-            "value": input,
+          "value": {
+            "type": "Literal",
+            "value": "e0b8fc2b-fc7e-4786-bc05-b85187a8d065",
+            "raw": "\"e0b8fc2b-fc7e-4786-bc05-b85187a8d065\""
+          },
           "kind": "init"
         },
-          {
-            "type": "Property",
-            "method": false,
-            "shorthand": false,
-            "computed": false,
-            "key": {
-              "type": "Identifier",
-              "name": "elements"
-            },
-            "value": {
-              "type": "ArrayExpression",
-              "elements": identifiers
-            },
-            "kind": "init"
-          }
-        ]
-      }
+        {
+          "type": "Property",
+          "method": false,
+          "shorthand": false,
+          "computed": false,
+          "key": {
+            "type": "Identifier",
+            "start": 115,
+            "end": 125,
+            "name": "expression"
+          },
+          "value": input,
+        "kind": "init"
+      },
+        {
+          "type": "Property",
+          "method": false,
+          "shorthand": false,
+          "computed": false,
+          "key": {
+            "type": "Identifier",
+            "name": "elements"
+          },
+          "value": {
+            "type": "ArrayExpression",
+            "elements": identifiers
+          },
+          "kind": "init"
+        }
+      ]
+    }
 }
 export function replace_model(key,input)
 {
-    if(key != "model")
-    {
-        return input
-    }
-    return {
-        "type": "ArrayExpression",
-        "elements": [
-          buildReactiveObject({
-            "type": "ArrowFunctionExpression",      
-            "expression": true,
-            "generator": false,
-            "async": false,
-            "params": [],
-            "body": input
-        }),
-            {
-                "type": "ArrowFunctionExpression",
-                "expression": true,
-                "generator": false,
-                "async": false,
-                "params": [
-                    {
-                        "type": "Identifier",
-                        "name": "_model_value"    
-                    }
-                ],
-                "body": {
-                    "type": "AssignmentExpression",
-                    "operator": "=",        
-                    "left": input,
-                    "right": {
-                        "type": "Identifier",
-                        "name": "_model_value"    
-                    }
-                }
-            }
-        ]
-    }
+  if(key != "model")
+  {
+      return input
+  }
+  return {
+      "type": "ArrayExpression",
+      "elements": [
+        buildReactiveObject({
+          "type": "ArrowFunctionExpression",      
+          "expression": true,
+          "generator": false,
+          "async": false,
+          "params": [],
+          "body": input
+      }),
+          {
+              "type": "ArrowFunctionExpression",
+              "expression": true,
+              "generator": false,
+              "async": false,
+              "params": [
+                  {
+                      "type": "Identifier",
+                      "name": "_model_value"    
+                  }
+              ],
+              "body": {
+                  "type": "AssignmentExpression",
+                  "operator": "=",        
+                  "left": input,
+                  "right": {
+                      "type": "Identifier",
+                      "name": "_model_value"    
+                  }
+              }
+          }
+      ]
+  }
 }

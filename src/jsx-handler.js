@@ -23,17 +23,7 @@ export const JSXDOM = (name, props, ...children) => {
             value.__ref_object = el;
         },
         "style":(prop)=>{
-            if(prop && prop.key != "e0b8fc2b-fc7e-4786-bc05-b85187a8d065")
-            {
-                for(const [key, value] of Object.entries(prop))
-                {
-                    el.$style(key,value)
-                }
-            }
-            else
-            {
-                el.$style(prop)
-            }
+            el.$style(prop)
         },
          "class":(prop)=>{
             el.$class(prop);

@@ -59,12 +59,12 @@ class el{
 
     __observeParent()
     {
-        setTimeout(()=>{
+        setTimeout(() => {
             for(const event of this.__mounted_events)
             {
                 event()
             }
-        },0)
+        }, 0)
         const observer = new MutationObserver((mutations) => {
             for(const mutation of mutations)
             {
@@ -165,30 +165,44 @@ class el{
     {
         name = this.__parseInput(name)
         value = this.__parseInput(value)
-        if(this.__isReactive(name))
-        {
-            var previous = this.__handleFunction(name)
-        }
+        var previous = null
         this.__handleEffect(this.__isReactive(name,value),()=>{
             const classes = this.__handleFunction(name)
             if(classes)
             {
-                if(this.__handleFunction(value))
+                if(typeof classes === "object")
                 {
-                    if(this.__isReactive(name))
+                    for(const key in classes)
                     {
-                        if(previous)
+                        if(classes[key])
                         {
-                            this.__element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
+                            this.__element.classList.add(key);
                         }
-                        previous = classes
+                        else
+                        {
+                            this.__element.classList.remove(key);
+                        }
                     }
-                    this.__element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
                 }
                 else
                 {
-                    this.__element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
-                    previous = null
+                    if(this.__handleFunction(value))
+                    {
+                        if(this.__isReactive(name))
+                        {
+                            if(previous)
+                            {
+                                this.__element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
+                            }
+                            previous = classes
+                        }
+                        this.__element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
+                    }
+                    else
+                    {
+                        this.__element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
+                        previous = null
+                    }
                 }
             }
         })
@@ -282,11 +296,23 @@ class el{
         }
         value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(value),()=>{
-            const styles = this.__handleFunction(value).split(';').filter((style) => style.length > 0);
-            this.__element.style = {}
-            for(const style of styles) {
-                const [key, value] = style.split(':');
-                this.__element.style[key] = this.__handleFunction(value);
+            var new_style = this.__handleFunction(value)
+            if(typeof new_style === "object")
+            {
+                for(const key in new_style)
+                {
+                    this.__element.style[key] = new_style[key];
+                }
+            }
+            else
+            {
+
+                const styles = new_style.split(';').filter((style) => style.length > 0);
+                this.__element.style = {}
+                for(const style of styles) {
+                    const [key, value] = style.split(':');
+                    this.__element.style[key] = this.__handleFunction(value);
+                }
             }
         })
         return this
