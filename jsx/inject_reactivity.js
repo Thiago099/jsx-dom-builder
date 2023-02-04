@@ -110,7 +110,6 @@ function buildReactiveObject(input)
         }
       }
     );
-  console.log(identifiers)
     return  {
       "type": "ObjectExpression",
       "start": 81,
