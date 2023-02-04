@@ -73,7 +73,44 @@ function handleReactivity(input)
 
 function buildReactiveObject(input)
 {
-  const identifiers = findPatternShallow(input,state_pattern).map(x=>x.object);
+  const identifiers = findPatternShallow(input,state_pattern).map(x=>
+    {
+      return  {
+          "type": "ConditionalExpression",
+          "start": 0,
+          "end": 52,
+          "test": {
+            "type": "BinaryExpression",
+            "start": 0,
+            "end": 30,
+            "left": {
+              "type": "UnaryExpression",
+              "start": 0,
+              "end": 14,
+              "operator": "typeof",
+              "prefix": true,
+              "argument": x.object
+            },
+            "operator": "!==",
+            "right": {
+              "type": "Literal",
+              "start": 19,
+              "end": 30,
+              "value": "undefined",
+              "raw": "'undefined'"
+            }
+          },
+          "consequent":x.object,
+          "alternate": {
+            "type": "Identifier",
+            "start": 43,
+            "end": 52,
+            "name": "undefined"
+          }
+        }
+      }
+    );
+  console.log(identifiers)
     return  {
       "type": "ObjectExpression",
       "start": 81,
