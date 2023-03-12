@@ -452,7 +452,7 @@ class el{
 
             if(clean_last_item) clean_last_item()
             
-            const addAnyElmentAsChild = (item) => 
+            const addAnyElementAsChild = (item) => 
             {
                 if(item == null) return () => {}
                 if(item.__element !== undefined)
@@ -471,13 +471,12 @@ class el{
                 }
                 return () => item.remove()
             }
-
             if(Array.isArray(item))
             {
                 var itens_to_remove = []
                 for(const i of item)
                 {
-                    itens_to_remove.push(addAnyElmentAsChild(i))
+                    itens_to_remove.push(addAnyElementAsChild(i))
                 }
                 clean_last_item = () => {
                     for(const remove_function of itens_to_remove) remove_function()
@@ -485,7 +484,7 @@ class el{
             }
             else
             {
-                clean_last_item = addAnyElmentAsChild(item)
+                clean_last_item = addAnyElementAsChild(item)
             }
         })
         return this

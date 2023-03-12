@@ -17,11 +17,7 @@ const input_blacklist = [
     "get_computed_style"
 ]
 
-const state_pattern = {
-    "type": "MemberExpression",
-    "property": { "type": "Identifier"} 
-}
-
+const state_pattern = { "type": "Identifier"} 
 export function isOnBlacklist(key)
 {
     for(const item of input_blacklist)
@@ -89,7 +85,7 @@ function buildReactiveObject(input)
               "end": 14,
               "operator": "typeof",
               "prefix": true,
-              "argument": x.object
+              "argument": x
             },
             "operator": "!==",
             "right": {
@@ -100,7 +96,7 @@ function buildReactiveObject(input)
               "raw": "'undefined'"
             }
           },
-          "consequent":x.object,
+          "consequent":x,
           "alternate": {
             "type": "Identifier",
             "start": 43,
