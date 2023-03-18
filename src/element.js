@@ -401,7 +401,8 @@ class el{
                 this.__element.style = {}
                 for(const style of styles) {
                     const [key, value] = style.split(':');
-                    this.__element.style[key] = this.__handleFunction(value);
+                    console.log(key,value)
+                    this.__element.style.setProperty(key,this.__handleFunction(value));
                 }
             }
         })
