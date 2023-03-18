@@ -1,11 +1,30 @@
 
 import { element } from './element.js'
+
+function deal_input(input)
+{
+    if(input && input.key == "e0b8fc2b-fc7e-4786-bc05-b85187a8d065")
+    {
+        return input.expression
+    }
+    return input
+}
 export const JSXDOM = (name, props, ...children) => {
 
     var el;
     var is_component = false
     if (typeof name === 'function') {
-        el = name(props, ...children);
+        var parsed_props = {}
+
+        if(props)
+        {
+            for(const [key, value] of Object.entries(props))
+            {
+                parsed_props[key] = deal_input(value)
+            }
+        }
+
+        el = name(parsed_props, ...children);
         if(el === undefined)
         {
             return children

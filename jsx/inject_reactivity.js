@@ -12,8 +12,9 @@ const input_blacklist = [
     //"then",
     "on",
     /on:.+/,
-    "mounted",
-    "unmounted",
+    "onMounted",
+    "onUnmounted",
+    "onUpdate",
     "get_computed_style"
 ]
 

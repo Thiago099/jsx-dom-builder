@@ -356,12 +356,19 @@ class el{
         return this
     }
 
-    $mounted(callback)
+    $onUpdate(callback)
+    {
+
+        this.__events.push(callback)
+        return this
+    }
+
+    $onMounted(callback)
     {
         this.__mounted_events.push(callback)
     }
 
-    $unmounted(callback)
+    $onUnmounted(callback)
     {
         this.__unmounted_events.push(callback)
     }
