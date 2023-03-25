@@ -29,8 +29,8 @@ function build_proxy(element)
             if (name in target) {
                 return target[name]
             }
-            else if (name in target.__element) {
-                return intercept(target.__element, name);
+            else if (name in target.$element) {
+                return intercept(target.$element, name);
             }
         },
         set: (target, name, value) => {
@@ -41,7 +41,7 @@ function build_proxy(element)
             {
                 target.$set_style(value)
             }
-            else if (name in target.__element) {
+            else if (name in target.$element) {
                 target.$property(name, value);
             }
             return true;
@@ -55,11 +55,11 @@ class el{
     constructor(name) {
         if(typeof name === "string")
         {
-            this.__element = document.createElement(name);
+            this.$element = document.createElement(name);
         }
         else if(name instanceof HTMLElement)
         {
-            this.__element = name;
+            this.$element = name;
         }
         else
         {
@@ -83,7 +83,7 @@ class el{
 
     $click()
     {
-        this.__element.click()
+        this.$element.click()
         return this
     }
 
@@ -103,7 +103,7 @@ class el{
     {
         var list = []
 
-        if(this.__element.matches(selector))
+        if(this.$element.matches(selector))
         {
             list.push(build_proxy(this))
         }
@@ -160,7 +160,7 @@ class el{
             {
                 if (mutation.type === 'childList' && mutation.removedNodes.length) {
                     for (const removedNode of mutation.removedNodes) {
-                        if (removedNode === this.__element) {
+                        if (removedNode === this.$element) {
                             this.__unsubscribe()
                             for(const event of this.__unmounted_events)
                             {
@@ -171,7 +171,7 @@ class el{
                 }
                 if (mutation.type === 'childList' && mutation.addedNodes.length) {
                     for (const removedNode of mutation.addedNodes) {
-                        if (removedNode === this.__element) {
+                        if (removedNode === this.$element) {
                             this.__subscribe()
                             for(const event of this.__mounted_events)
                             {
@@ -182,7 +182,7 @@ class el{
                 }
             }
         });
-        observer.observe(this.__element.parentElement, { childList: true });
+        observer.observe(this.$element.parentElement, { childList: true });
     }
     __subscribe()
     {
@@ -266,11 +266,11 @@ class el{
                     {
                         if(classes[key])
                         {
-                            this.__element.classList.add(key);
+                            this.$element.classList.add(key);
                         }
                         else
                         {
-                            this.__element.classList.remove(key);
+                            this.$element.classList.remove(key);
                         }
                     }
                 }
@@ -282,15 +282,15 @@ class el{
                         {
                             if(previous)
                             {
-                                this.__element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
+                                this.$element.classList.remove(...((previous).split(" ").filter((c) => c.length > 0)))
                             }
                             previous = classes
                         }
-                        this.__element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
+                        this.$element.classList.add(...((classes).split(" ").filter((c) => c.length > 0)));
                     }
                     else
                     {
-                        this.__element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
+                        this.$element.classList.remove(...((classes).split(" ").filter((c) => c.length > 0)));
                         previous = null
                     }
                 }
@@ -307,14 +307,14 @@ class el{
     $parent(object)
     {
         this.__parent = object
-        if(object.__element !== undefined)
+        if(object.$element !== undefined)
         {
-            object.__element.appendChild(this.__element);
+            object.$element.appendChild(this.$element);
             object.__children.push(this)
         }
         else
         {
-            object.appendChild(this.__element);
+            object.appendChild(this.$element);
         }
         this.__observeParent();
         return this
@@ -323,26 +323,26 @@ class el{
     $parentBefore(object)
     {
         this.__parent = object;
-        if(object.__element !== undefined)
+        if(object.$element !== undefined)
         {
-            if(object.__element.firstChild)
+            if(object.$element.firstChild)
             {
-                object.__element.insertBefore(this.__element, object.__element.firstChild);
+                object.$element.insertBefore(this.$element, object.$element.firstChild);
             }
             else
             {
-                object.__element.appendChild(this.__element);
+                object.$element.appendChild(this.$element);
             }
         }
         else
         {
             if(object.firstChild)
             {
-                object.insertBefore(this.__element, object.firstChild);
+                object.insertBefore(this.$element, object.firstChild);
             }
             else
             {
-                object.appendChild(this.__element);
+                object.appendChild(this.$element);
             }
         }
 
@@ -352,7 +352,7 @@ class el{
 
     $on(event, callback)
     {
-        this.__element.addEventListener(event, callback);
+        this.$element.addEventListener(event, callback);
         return this
     }
 
@@ -379,7 +379,7 @@ class el{
         value = this.__parseInput(value)
 
         this.__handleEffect(this.__isReactive(name,value),()=>{
-            this.__element[this.__handleFunction(name)] = this.__handleFunction(value);
+            this.$element[this.__handleFunction(name)] = this.__handleFunction(value);
         })
         return this
     }
@@ -398,17 +398,17 @@ class el{
             {
                 for(const key in new_style)
                 {
-                    this.__element.style[key] = new_style[key];
+                    this.$element.style[key] = new_style[key];
                 }
             }
             else
             {
 
                 const styles = new_style.split(';').filter((style) => style.length > 0);
-                this.__element.style = {}
+                this.$element.style = {}
                 for(const style of styles) {
                     const [key, value] = style.split(':');
-                    this.__element.style.setProperty(key,this.__handleFunction(value));
+                    this.$element.style.setProperty(key,this.__handleFunction(value));
                 }
             }
         })
@@ -420,21 +420,21 @@ class el{
         key = this.__parseInput(key)
         value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(key,value),()=>{
-            this.__element.style[this.__handleFunction(key)] = this.__handleFunction(value);
+            this.$element.style[this.__handleFunction(key)] = this.__handleFunction(value);
         })
         return this
     }
 
     $get_computed_style(name)
     {
-        return window.getComputedStyle(this.__element).getPropertyValue(name)
+        return window.getComputedStyle(this.$element).getPropertyValue(name)
     }
 
     $html(value)
     {
         value = this.__parseInput(value)
         this.__handleEffect(this.__isReactive(value),()=>{
-            this.__element.innerHTML = this.__handleFunction(value)
+            this.$element.innerHTML = this.__handleFunction(value)
         })
         return this
     }
@@ -462,19 +462,19 @@ class el{
             const addAnyElementAsChild = (item) => 
             {
                 if(item == null) return () => {}
-                if(item.__element !== undefined)
+                if(item.$element !== undefined)
                 {
                     item.$parent(container)
                     return () => item.$remove()
                 }
                 else if(item instanceof HTMLElement)
                 {
-                    container.__element.appendChild(item)
+                    container.$element.appendChild(item)
                 }
                 else
                 {
                     item = document.createTextNode(item);
-                    container.__element.appendChild(item);
+                    container.$element.appendChild(item);
                 }
                 return () => item.remove()
             }
@@ -500,7 +500,7 @@ class el{
     $remove()
     {
         this.__parent = null
-        this.__element.remove()
+        this.$element.remove()
         return this
     }
 
