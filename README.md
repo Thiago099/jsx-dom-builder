@@ -2,7 +2,7 @@
 
 ## Description
 This is a JSX library, with reactivity, components, input synchronizing and you can fully edit every JSX variable and append it to any element.
-Alternatively you can use anything you normally would with the original html dom element. to make it reactive you add a $ at the start of the function name
+Alternatively you can use anything you normally would with the original html dom element. to make it reactive you add a $ at the start of the property
 ## Instalation
 
 You can get started by running the following commands
