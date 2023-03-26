@@ -1,30 +1,46 @@
 
 import { element } from './element.js'
 
-function deal_input(input)
+function prop_proxy(props)
+{
+    return new Proxy({}, {
+        get: function(target, name) {
+            if(!props) return
+            if(name.startsWith("$"))
+            {
+                return get_input(props[name.substr(1)])
+            }
+            if(props[name])
+            {
+                return call_input(props[name])
+            }
+            return undefined
+        }
+    })
+}
+function call_input(input)
+{
+    if(input && input.key == "e0b8fc2b-fc7e-4786-bc05-b85187a8d065")
+    {
+        return input.expression()
+    }
+    return input
+}
+function get_input(input)
 {
     if(input && input.key == "e0b8fc2b-fc7e-4786-bc05-b85187a8d065")
     {
         return input.expression
     }
-    return input
+    return ()=>input
 }
+
 export const JSXDOM = (name, props, ...children) => {
 
     var el;
     var is_component = false
     if (typeof name === 'function') {
-        var parsed_props = {}
-
-        if(props)
-        {
-            for(const [key, value] of Object.entries(props))
-            {
-                parsed_props[key] = deal_input(value)
-            }
-        }
-
-        el = name(parsed_props, ...children);
+        el = name(prop_proxy(props), ...children);
         if(el === undefined)
         {
             return children
