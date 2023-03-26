@@ -20,6 +20,17 @@ export const pattern2 = {
     }
 }
 
+export const pattern3 = {
+    "type": "AssignmentExpression",
+    "left": {
+        "type": "MemberExpression",
+        "property": {
+            "type": "Identifier",
+            "name": /\$.*/
+        }
+    }
+}
+
 import { findPattern } from "./pattern_matching.js"
 import { replace_reactive,replace_reactive_prop, replace_model,isOnBlacklist } from "./inject_reactivity.js"
 
@@ -27,7 +38,9 @@ export function parse(code)
 {
     const parsed = acorn.parse(code, {ecmaVersion: "latest",sourceType: "module"});
 
-    // console.log(JSON.stringify(parsed,null,2));
+
+    // const ccc = acorn.parse("a.b.c = 10", {ecmaVersion: "latest",sourceType: "module"});
+    // console.log(JSON.stringify(ccc,null,2));
 
     const outside_calls = findPattern(parsed,pattern2);
 
@@ -47,6 +60,20 @@ export function parse(code)
             for(const index in outside_call.arguments)
             {
                 outside_call.arguments[index] = replace_reactive(outside_call.arguments[index]);
+            }
+        }
+    }
+
+    const outside_sets = findPattern(parsed,pattern3);
+    
+    for(const outside_set of outside_sets)
+    {
+        const name = outside_set.left.property.name;
+        if(!isOnBlacklist(name.replace(/\$/,'')))
+        {
+            if(!isOnBlacklist(name.replace(/\$/,'')))
+            {
+                outside_set.right = replace_reactive(outside_set.right);
             }
         }
     }
