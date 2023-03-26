@@ -7,6 +7,11 @@ function build_proxy(element)
     function intercept(target, name)
     {
 
+        //if is neither a function or a object
+        if (typeof target[name] !== 'function' && typeof target[name] !== 'object') {
+            return target[name]; // return the original value
+        }
+        
         if(name.startsWith("$"))
         {
             name = name.substring(1)
