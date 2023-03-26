@@ -352,23 +352,38 @@ class el{
 
     $on(event, callback)
     {
+        if(event === "mounted")
+        {
+            this.__onMounted(callback)
+            return this
+        }
+        if(event === "unmounted")
+        {
+            this.__onUnmounted(callback)
+            return this
+        }
+        if(event === "update")
+        {
+            this.__onUpdate(callback)
+            return this
+        }
         this.$element.addEventListener(event, callback);
         return this
     }
 
-    $onUpdate(callback)
+    __onUpdate(callback)
     {
 
         this.__events.push(callback)
         return this
     }
 
-    $onMounted(callback)
+    __onMounted(callback)
     {
         this.__mounted_events.push(callback)
     }
 
-    $onUnmounted(callback)
+    __onUnmounted(callback)
     {
         this.__unmounted_events.push(callback)
     }
