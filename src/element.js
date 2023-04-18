@@ -346,6 +346,20 @@ class el{
         this.__parent = object;
         if(object.__element !== undefined)
         {
+            object.__element.insertBefore(this.__element, object.__element.firstChild);
+            object.__children.push(this)
+        }
+        else
+        {
+            object.insertBefore(this.__element, object.firstChild);
+        }
+    }
+
+    $parentBefore(object)
+    {
+        this.__parent = object;
+        if(object.__element !== undefined)
+        {
             if(object.__element.firstChild)
             {
                 object.__element.insertBefore(this.__element, object.__element.firstChild);
@@ -434,7 +448,7 @@ class el{
             {
                 for(const key in new_style)
                 {
-                    this.__element.style[key] = new_style[key];
+                    this.__element.style.setProperty(key,new_style[key]);
                 }
             }
             else
