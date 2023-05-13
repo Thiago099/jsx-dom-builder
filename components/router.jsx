@@ -18,7 +18,7 @@ function trimSlashes(str) {
 
 function Router(routes)
 {
-    var element = <div></div>
+    var container = <div></div>
     var currentPath = window.location.pathname;
     navigatePath()
     //on popstate
@@ -29,12 +29,12 @@ function Router(routes)
     {
         currentPath = window.location.pathname;
         var path = trimSlashes(currentPath).split('/').filter(x => x !== "")
-        element.innerHTML = ""
+        container.innerHTML = ""
 
         for(var route in routes)
         {
             var routePath = route.trim('/').split('/').filter(x => x !== "")
-            var parameters = {navigateTo}
+            var parameters = {go}
             if(routePath.length === path.length)
             {
                 var match = true
@@ -55,26 +55,28 @@ function Router(routes)
                 {
                     routes[route]()
                     .then(module => {
-                        module.default(parameters).$parent(element)
+                        module.default(parameters).$parent(container)
                     })
                     return
                 }
             }
         }
         if(routes["404"] !== undefined) 
-        routes["404"]()
-        .then(module => {
-            module.default().$parent(element)
-        })
+        {
+            routes["404"]()
+            .then(module => {
+                module.default().$parent(container)
+            })
+        }
 
     }
 
-    function navigateTo(path)
+    function go(path)
     {
         if(path.trim() === "") path = "/"
         window.history.pushState({}, path, path);
         currentPath = path
         navigatePath()
     }
-    return {element, navigateTo, currentPath:()=> currentPath}
+    return container
 }

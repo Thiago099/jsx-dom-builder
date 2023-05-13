@@ -229,13 +229,25 @@ my_element
 The router feature allows you to create a single page application with the following syntax
 ```js
 
-import { Router } from 'jsx-dom-builder/components'
-
-const route = Router({
+const container = Router({
     '/': () => import("./home"), 
-    '/about': () => import("./about")
+    'about': () => import("./about")
 })
 
-route.element.$parent(document.body)
+container.$parent(document.body)
+```
 
+home.jsx
+```js
+export default Home
+function Home({go})
+{
+    return (
+        <div>
+            <h1>Home</h1>
+            <p>This is the home page</p>
+            <button on:click={()=>go("about")}>About</button>
+        </div>
+    )
+}
 ```
