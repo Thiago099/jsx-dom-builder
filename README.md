@@ -225,3 +225,15 @@ my_element
     // Removes the element from the dom
     .$remove()
 ```
+
+The router feature allows you to create a single page application with the following syntax
+```js
+
+import { Router } from 'jsx-dom-builder/components'
+
+const route = Router({
+    '/': () => import("./home"), 
+    '/about': () => import("./about")
+})
+
+```
