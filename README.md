@@ -236,4 +236,6 @@ const route = Router({
     '/about': () => import("./about")
 })
 
+route.element.$parent(document.body)
+
 ```
